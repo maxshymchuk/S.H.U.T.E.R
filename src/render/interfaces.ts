@@ -1,3 +1,11 @@
+import { IEngine } from '../engine/interfaces/engine';
+
 export interface IRender {
-  target: string;
+  targetId: string;
+  draw: (game: IEngine) => void;
+  clear: () => void;
+}
+
+export interface IRenderParams {
+  targetId?: string;
 }

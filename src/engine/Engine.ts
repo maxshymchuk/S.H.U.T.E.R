@@ -4,30 +4,32 @@ import { Entity } from './entities/Entity';
 import { IRender } from '../render/interfaces';
 import Render from '../render/Render';
 import { Dispatch } from 'react';
-import { updateGameState } from '../store/actions';
-import { extractGameState } from './factories/extractGameState';
+import cloneDeep from 'lodash.clonedeep';
+import { Player } from './entities/players/Player';
+import { Mate } from './entities/mates/Mate';
 
 export class Engine implements IEngine {
   private _initialEntities: Entity[] = [];
   private _timer: NodeJS.Timer = null;
-  private _render: IRender = null;
-  private _tickCount: number = 0;
-  private _entities: Entity[] = [];
-  private _dispatch: Dispatch<any>;
   private readonly _tickrate: number;
+  private readonly _render: IRender = null;
 
   constructor(params?: IEngineParams) {
     this._tickrate = params?.tickrate || ENGINE_TICKRATE;
     this._render = params?.render || new Render();
   }
 
-  public set dispatch(dispatch: Dispatch<any>) {
-    this._dispatch = dispatch;
+  public get render(): IRender {
+    return this._render;
   }
+
+  private _tickCount: number = 0;
 
   public get tickCount(): number {
     return this._tickCount;
   }
+
+  private _entities: Entity[] = [];
 
   public get entities(): Entity[] {
     return this._entities;
@@ -35,9 +37,23 @@ export class Engine implements IEngine {
 
   public set entities(entities: Entity[]) {
     this._entities = entities;
-    if (!this._initialEntities) {
-      this._initialEntities = entities;
+    if (!this._initialEntities.length) {
+      this._initialEntities = cloneDeep(entities);
     }
+  }
+
+  private _dispatch: Dispatch<any>;
+
+  public set dispatch(dispatch: Dispatch<any>) {
+    this._dispatch = dispatch;
+  }
+
+  public getPlayer() {
+    return this._entities.filter(entity => entity instanceof Player)[0];
+  }
+
+  public getMates() {
+    return this._entities.filter(entity => entity instanceof Mate);
   }
 
   public start(): void {
@@ -55,6 +71,7 @@ export class Engine implements IEngine {
 
   public reset(): void {
     console.log('Game reset');
+    this.render.clear();
     this.stop();
     this._entities = this._initialEntities;
     this._tickCount = 0;
@@ -62,11 +79,12 @@ export class Engine implements IEngine {
 
   private _tick(): void {
     this._entities?.forEach(entity => entity.tick());
+    this._render.draw(this);
     this._tickCount++;
-    if (this._dispatch) {
-      const gameState = extractGameState(this);
-      this._dispatch(updateGameState(gameState))
-    }
+    // if (this._dispatch) {
+    //   const gameState = extractGameState(this);
+    //   this._dispatch(updateGameState(gameState));
+    // }
   }
 }
 

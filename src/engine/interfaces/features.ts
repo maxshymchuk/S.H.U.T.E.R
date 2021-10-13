@@ -11,8 +11,21 @@ export interface IVector {
 export interface IElement extends IDimension, IVector {
 }
 
-export interface IEntity extends IElement {
+export interface IMovable {
+  speed: IVector;
+  direction: IVector;
+  acceleration: IVector;
+  friction: number;
+  maxSpeed: number;
+  minSpeed: number;
+}
+
+export interface IEntity extends IElement, IMovable {
   color: string;
   hitbox: IVector[];
   isWithCollision: boolean;
+}
+
+export interface ISlave {
+  master: IEntity;
 }

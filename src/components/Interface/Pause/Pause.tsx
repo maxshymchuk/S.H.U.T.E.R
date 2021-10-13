@@ -14,6 +14,8 @@ const StyledPause = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+  backdrop-filter: grayscale(100%);
+  background-color: #00000033;
 `;
 
 const SubTitle = styled.span`

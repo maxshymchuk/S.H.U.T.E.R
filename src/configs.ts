@@ -9,11 +9,11 @@ export const entitiesConfig: IEntityConfig[] = [
     width: 50,
     height: 50,
   },
-  {
-    type: ENTITY_TYPE.ENEMY,
-    x: 200,
-    y: 200,
-    width: 50,
-    height: 50,
-  },
+  // {
+  //   type: ENTITY_TYPE.ENEMY,
+  //   x: 200,
+  //   y: 200,
+  //   width: 50,
+  //   height: 50,
+  // },
 ];

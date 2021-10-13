@@ -9,6 +9,7 @@ export interface IEngineParams {
 export interface IEngine {
   entities: Entity[];
   tickCount: number;
+  render: IRender;
   start: () => void;
   stop: () => void;
 }

@@ -4,7 +4,7 @@ export const THEME = {
 };
 
 export const GAME_TITLE = 'S.H.U.T.E.R';
-export const ENGINE_TICKRATE = 1000;
+export const ENGINE_TICKRATE = 10;
 
 export const enum ENTITY_TYPE {
   PLAYER,

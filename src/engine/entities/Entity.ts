@@ -2,8 +2,6 @@ import { IEntity, IVector } from '../interfaces/features';
 import { between } from '../../utils';
 
 export abstract class Entity implements IEntity {
-  private _vector: IVector;
-
   protected constructor(x: number, y: number, width: number, height: number, color: string, hitbox?: IVector[]) {
     this.x = x;
     this.y = y;
@@ -11,6 +9,67 @@ export abstract class Entity implements IEntity {
     this.height = height;
     this.color = color;
     this.hitbox = hitbox;
+  }
+
+  private _friction = 1;
+
+  public get friction(): number {
+    return this._friction;
+  }
+
+  public set friction(friction: number) {
+    this._friction = between(friction, 0, 1);
+  }
+
+  private _acceleration: IVector = { x: 0, y: 0 };
+
+  public get acceleration(): IVector {
+    return this._acceleration;
+  }
+
+  public set acceleration(acceleration: IVector) {
+    this._acceleration = acceleration;
+  }
+
+  private _maxSpeed: number = Infinity;
+
+  public get maxSpeed(): number {
+    return this._maxSpeed;
+  }
+
+  public set maxSpeed(maxSpeed: number) {
+    this._maxSpeed = maxSpeed;
+  }
+
+  private _minSpeed: number = -Infinity;
+
+  public get minSpeed(): number {
+    return this._minSpeed;
+  }
+
+  public set minSpeed(minSpeed: number) {
+    this._minSpeed = minSpeed;
+  }
+
+  private _direction: IVector = { x: 0, y: 0 };
+
+  public get direction(): IVector {
+    return this._direction;
+  }
+
+  public set direction(direction: IVector) {
+    this._direction.x = between(direction.x, -1, 1);
+    this._direction.y = between(direction.y, -1, 1);
+  }
+
+  private _speed: IVector = { x: 0, y: 0 };
+
+  public get speed(): IVector {
+    return this._speed;
+  }
+
+  public set speed(speed: IVector) {
+    this._speed = speed;
   }
 
   private _x: number;
@@ -40,7 +99,7 @@ export abstract class Entity implements IEntity {
   }
 
   public set width(width: number) {
-    this._width = width;
+    this._width = between(width, 0, Infinity);
   }
 
   private _height: number;
@@ -50,7 +109,7 @@ export abstract class Entity implements IEntity {
   }
 
   public set height(height: number) {
-    this._height = height;
+    this._height = between(height, 0, Infinity);
   }
 
   private _color: string;
@@ -81,6 +140,9 @@ export abstract class Entity implements IEntity {
   }
 
   public tick() {
-    console.log(this.constructor.name);
+    this.speed.x = between(this.speed.x += this.direction.x * this.acceleration.x, this.minSpeed, this.maxSpeed) * this.friction;
+    this.speed.y = between(this.speed.y += this.direction.y * this.acceleration.y, this.minSpeed, this.maxSpeed) * this.friction;
+    this.x += this.speed.x;
+    this.y += this.speed.y;
   }
 }

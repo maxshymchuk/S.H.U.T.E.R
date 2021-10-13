@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../../store/store';
+import game from '../../engine/Engine';
 
-const StyledCanvas = styled.canvas`
+const StyledCanvas = styled.div`
   width: 100%;
   height: 100%;
 `;
@@ -11,11 +12,15 @@ const StyledCanvas = styled.canvas`
 export default function Canvas() {
   const gameState = useSelector((store: IRootState) => store.gameState);
 
+  useLayoutEffect(() => {
+    game.render.targetId = 'canvas';
+  }, []);
+
   useEffect(() => {
     console.log(gameState);
   }, [gameState])
 
   return (
-    <StyledCanvas />
+    <StyledCanvas id='canvas' />
   );
 }
