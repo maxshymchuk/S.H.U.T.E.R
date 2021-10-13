@@ -1,4 +1,14 @@
-import styled from "styled-components";
+import styled from 'styled-components';
+
+export const Invisible = styled.div`
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  width: 0;
+  height: 0;
+  user-select: none;
+  pointer-events: none;
+`;
 
 export const FullscreenAbsolute = styled.div`
   position: absolute;
@@ -14,4 +24,7 @@ export const InterfaceElement = styled.div`
   user-select: none;
   left: 0;
   top: 0;
+`;
+
+export const Button = styled.button`
 `;

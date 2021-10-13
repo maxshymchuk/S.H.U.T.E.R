@@ -1,20 +1,27 @@
 import React from 'react';
-import styled from "styled-components";
-import {IPosition} from "../../../interfaces";
-import {InterfaceElement} from "../../../styles";
+import styled from 'styled-components';
+import TutorialMessage from './TutorialMessage/TutorialMessage';
+import { FullscreenAbsolute } from '../../../styles';
+import { IVector } from '../../../engine/interfaces/features';
 
-type TutorialPropsType = {
-  position: IPosition;
-  message: string;
-};
-
-const StyledTutorial = styled(InterfaceElement)<Partial<TutorialPropsType>>`
-  left: ${props => `${props.position.x}px`};
-  top: ${props => `${props.position.y}px`};
-  background-color: red;
-  padding: 10px;
+const StyledTutorial = styled(FullscreenAbsolute)`
 `;
 
-export default function Tutorial({ position, message }: TutorialPropsType) {
-  return <StyledTutorial position={position}>{message}</StyledTutorial>;
+export default function Interface() {
+  const position1: IVector = {
+    x: 50,
+    y: 50,
+  };
+
+  const position2: IVector = {
+    x: 350,
+    y: 350,
+  };
+
+  return (
+    <StyledTutorial>
+      <TutorialMessage position={position1} message='Message1' />
+      <TutorialMessage position={position2} message='Message2' />
+    </StyledTutorial>
+  );
 }

@@ -1,9 +1,13 @@
-import React, {useLayoutEffect, useMemo, useState} from 'react';
-import styled from "styled-components";
-import Interface from "./components/Interface/Interface";
-import Canvas from "./components/Canvas/Canvas";
-import Controls from "./components/Controls/Controls";
-import Loader from "./components/Loader/Loader";
+import React, { useLayoutEffect, useState } from 'react';
+import styled from 'styled-components';
+import Interface from './components/Interface/Interface';
+import Canvas from './components/Canvas/Canvas';
+import Controls from './components/Controls/Controls';
+import Loader from './components/Loader/Loader';
+import game from './engine/Engine';
+import { configToEntities } from './engine/factories/configToEntities';
+import { entitiesConfig } from './configs';
+import { useDispatch } from 'react-redux';
 
 const StyledApp = styled.div`
   display: flex;
@@ -11,24 +15,26 @@ const StyledApp = styled.div`
   align-items: center;
   width: 100vw;
   height: 100vh;
+  position: relative;
 `;
 
 export default function App() {
-  const [isLoaded, setLoaded] = useState(false);
+  const dispatch = useDispatch();
+
+  const [isLoading, setLoading] = useState(false);
 
   useLayoutEffect(() => {
-    setTimeout(() => setLoaded(true), 100000);
-  }, [])
+    game.entities = configToEntities(entitiesConfig);
+    game.dispatch = dispatch;
+    // setTimeout(() => setLoading(false), 1000);
+  }, []);
 
   return (
     <StyledApp>
-      {isLoaded ? (
-        <>
-          <Canvas />
-          <Interface />
-          <Controls />
-        </>
-      ) : <Loader />}
+      <Canvas />
+      <Interface />
+      <Controls />
+      {isLoading && <Loader />}
     </StyledApp>
   );
 }

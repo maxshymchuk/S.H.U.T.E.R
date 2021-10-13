@@ -1,28 +1,22 @@
 import React from 'react';
-import styled from "styled-components";
-import Tutorial from "./Tutorial/Tutorial";
-import {IPosition} from "../../interfaces";
-import {FullscreenAbsolute} from "../../styles";
+import styled from 'styled-components';
+import { FullscreenAbsolute } from '../../styles';
+import { useSelector } from 'react-redux';
+import { IRootState } from '../../store/store';
+import Start from './Start/Start';
+import Pause from './Pause/Pause';
 
 const StyledInterface = styled(FullscreenAbsolute)`
 `;
 
 export default function Interface() {
-
-  const position1: IPosition = {
-    x: 50,
-    y: 50,
-  }
-
-  const position2: IPosition = {
-    x: 350,
-    y: 350,
-  }
+  const isGameStarted = useSelector((store: IRootState) => store.isGameStarted);
+  const isGameRunning = useSelector((store: IRootState) => store.isGameRunning);
 
   return (
     <StyledInterface>
-      <Tutorial position={position1} message='Message1' />
-      <Tutorial position={position2} message='Message2' />
+      {!isGameStarted && <Start />}
+      {isGameStarted && !isGameRunning && <Pause />}
     </StyledInterface>
   );
 }
