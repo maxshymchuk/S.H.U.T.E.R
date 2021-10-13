@@ -1,4 +1,5 @@
 import { Entity } from '../Entity';
+import { CANVAS_ID } from '../../../constants';
 
 export class Player extends Entity {
 
@@ -14,5 +15,6 @@ export class Player extends Entity {
     this.minSpeed = -15;
     this.maxSpeed = 15;
     this.friction = 0.9;
+    this.limits = document.getElementById(CANVAS_ID)?.getBoundingClientRect();
   }
 }

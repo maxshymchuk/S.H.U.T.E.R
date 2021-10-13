@@ -5,7 +5,6 @@ import game from '../../engine/Engine';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../store/store';
 import { changeGameRunningStatus } from '../../store/actions';
-import { IVector } from '../../engine/interfaces/features';
 
 const StyledControls = styled(Invisible)``;
 
@@ -47,11 +46,6 @@ export default function Controls() {
     dispatch(changeGameRunningStatus(!isGameRunningActual.current));
   };
 
-  const move = (vector: IVector) => {
-    const player = game.getPlayer();
-    player.direction = vector;
-  }
-
   const handleKeyDown = (e: KeyboardEvent) => {
     if (!isGameStartedActual.current) return;
     // e.preventDefault();
@@ -70,11 +64,12 @@ export default function Controls() {
   const checkPressedKeys = () => {
     let x = 0;
     let y = 0;
+    const player = game.getPlayer();
     if (keyState['KeyW'] || keyState['ArrowUp']) y = -1;
     if (keyState['KeyA'] || keyState['ArrowLeft']) x = -1;
     if (keyState['KeyS'] || keyState['ArrowDown']) y = 1;
     if (keyState['KeyD'] || keyState['ArrowRight']) x = 1;
-    move({ x, y });
+    player.direction = { x, y };
   }
 
   return <StyledControls />;

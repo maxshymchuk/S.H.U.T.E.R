@@ -23,6 +23,7 @@ export interface IMovable {
 export interface IEntity extends IElement, IMovable {
   color: string;
   hitbox: IVector[];
+  limits: IDimension;
   isWithCollision: boolean;
 }
 

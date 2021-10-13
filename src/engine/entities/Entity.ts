@@ -1,4 +1,4 @@
-import { IEntity, IVector } from '../interfaces/features';
+import { IDimension, IEntity, IVector } from '../interfaces/features';
 import { between } from '../../utils';
 
 export abstract class Entity implements IEntity {
@@ -9,6 +9,16 @@ export abstract class Entity implements IEntity {
     this.height = height;
     this.color = color;
     this.hitbox = hitbox;
+  }
+
+  private _limits = null;
+
+  public get limits(): IDimension {
+    return this._limits;
+  }
+
+  public set limits(limits: IDimension) {
+    this._limits = limits || null;
   }
 
   private _friction = 1;
@@ -140,9 +150,11 @@ export abstract class Entity implements IEntity {
   }
 
   public tick() {
-    this.speed.x = between(this.speed.x += this.direction.x * this.acceleration.x, this.minSpeed, this.maxSpeed) * this.friction;
-    this.speed.y = between(this.speed.y += this.direction.y * this.acceleration.y, this.minSpeed, this.maxSpeed) * this.friction;
-    this.x += this.speed.x;
-    this.y += this.speed.y;
+    this.speed.x = +(between(this.speed.x += this.direction.x * this.acceleration.x, this.minSpeed, this.maxSpeed) * this.friction).toFixed(3);
+    this.speed.y = +(between(this.speed.y += this.direction.y * this.acceleration.y, this.minSpeed, this.maxSpeed) * this.friction).toFixed(3);
+    const newX = this.x + this.speed.x;
+    const newY = this.y + this.speed.y;
+    this.x = this.limits ? between(newX, 0, this.limits.width - this.width) : newX;
+    this.y = this.limits ? between(newY, 0, this.limits.height - this.height) : newY;
   }
 }
