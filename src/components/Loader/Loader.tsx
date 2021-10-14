@@ -22,23 +22,6 @@ const Spinner = styled.div<ILoaderProps>`
   width: ${props => `${props.size}px`};
   height: ${props => `${props.size}px`};
 
-  @keyframes blinking {
-    0% {
-      top: ${props => `${props.size / 2 - props.width}px`};
-      left: ${props => `${props.size / 2 - props.width}px`};
-      width: 0;
-      height: 0;
-      opacity: 1;
-    }
-    100% {
-      top: 0;
-      left: 0;
-      width: ${props => `${props.size - 2 * props.width}px`};
-      height: ${props => `${props.size - 2 * props.width}px`};
-      opacity: 0;
-    }
-  }
-
   &:before,
   &:after {
     content: '';

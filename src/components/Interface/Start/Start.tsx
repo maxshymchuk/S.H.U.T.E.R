@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useLayoutEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Button, FullscreenAbsolute } from '../../../styles';
 import { useDispatch } from 'react-redux';
 import { changeGameRunningStatus, changeGameStartedStatus } from '../../../store/actions';
 import game from '../../../engine/Engine';
 import { GAME_TITLE } from '../../../constants';
+import { IVector } from '../../../engine/interfaces/features';
+import throttle from 'lodash.throttle';
+
 const spaceship = require('../../../assets/interface/spaceship.png');
+
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  perspective: 100px;
+`;
 
 const StyledStart = styled.div`
   display: flex;
@@ -15,12 +24,14 @@ const StyledStart = styled.div`
   height: 100%;
   padding: 100px;
   box-sizing: border-box;
+  transition: 0.1s transform;
 `;
 
 const Window = styled.div`
   display: flex;
   flex-direction: column;
   transform: matrix(1, -0.15, 0, 1, 0, 0);
+
   * {
     user-select: none;
   }
@@ -33,6 +44,7 @@ const Controls = styled.div`
     left: 0;
     transition: 0.2s all;
     margin: 5px 0;
+
     &:hover {
       left: 10px;
     }
@@ -44,7 +56,7 @@ const Logo = styled.div`
   flex-direction: column;
   justify-content: center;
   margin-bottom: 100px;
-  
+
   h1 {
     text-align: center;
     color: #fff;
@@ -65,177 +77,13 @@ const Logo = styled.div`
     color: #f16f6f;
     animation: glitch3 2.5s infinite;
   }
-
-  @keyframes glitch1 {
-    0% {
-      transform: none;
-      opacity: 1;
-    }
-    7% {
-      transform: skew(-0.5deg, -0.9deg);
-      opacity: 0.75;
-    }
-    10% {
-      transform: none;
-      opacity: 1;
-    }
-    27% {
-      transform: none;
-      opacity: 1;
-    }
-    30% {
-      transform: skew(0.8deg, -0.1deg);
-      opacity: 0.75;
-    }
-    35% {
-      transform: none;
-      opacity: 1;
-    }
-    52% {
-      transform: none;
-      opacity: 1;
-    }
-    55% {
-      transform: skew(-1deg, 0.2deg);
-      opacity: 0.75;
-    }
-    50% {
-      transform: none;
-      opacity: 1;
-    }
-    72% {
-      transform: none;
-      opacity: 1;
-    }
-    75% {
-      transform: skew(0.4deg, 1deg);
-      opacity: 0.75;
-    }
-    80% {
-      transform: none;
-      opacity: 1;
-    }
-    100% {
-      transform: none;
-      opacity: 1;
-    }
-  }
-
-  @keyframes glitch2 {
-    0% {
-      transform: none;
-      opacity: 0.25;
-    }
-    7% {
-      transform: translate(-2px, -3px);
-      opacity: 0.5;
-    }
-    10% {
-      transform: none;
-      opacity: 0.25;
-    }
-    27% {
-      transform: none;
-      opacity: 0.25;
-    }
-    30% {
-      transform: translate(-5px, -2px);
-      opacity: 0.5;
-    }
-    35% {
-      transform: none;
-      opacity: 0.25;
-    }
-    52% {
-      transform: none;
-      opacity: 0.25;
-    }
-    55% {
-      transform: translate(-5px, -1px);
-      opacity: 0.5;
-    }
-    50% {
-      transform: none;
-      opacity: 0.25;
-    }
-    72% {
-      transform: none;
-      opacity: 0.25;
-    }
-    75% {
-      transform: translate(-2px, -6px);
-      opacity: 0.5;
-    }
-    80% {
-      transform: none;
-      opacity: 0.25;
-    }
-    100% {
-      transform: none;
-      opacity: 0.25;
-    }
-  }
-
-  @keyframes glitch3 {
-    0% {
-      transform: none;
-      opacity: 0.25;
-    }
-    7% {
-      transform: translate(2px, 3px);
-      opacity: 0.5;
-    }
-    10% {
-      transform: none;
-      opacity: 0.25;
-    }
-    27% {
-      transform: none;
-      opacity: 0.25;
-    }
-    30% {
-      transform: translate(5px, 2px);
-      opacity: 0.5;
-    }
-    35% {
-      transform: none;
-      opacity: 0.25;
-    }
-    52% {
-      transform: none;
-      opacity: 0.25;
-    }
-    55% {
-      transform: translate(5px, 1px);
-      opacity: 0.5;
-    }
-    50% {
-      transform: none;
-      opacity: 0.25;
-    }
-    72% {
-      transform: none;
-      opacity: 0.25;
-    }
-    75% {
-      transform: translate(2px, 6px);
-      opacity: 0.5;
-    }
-    80% {
-      transform: none;
-      opacity: 0.25;
-    }
-    100% {
-      transform: none;
-      opacity: 0.25;
-    }
-  }
 `;
 
 const Spaceship = styled.div`
   width: 50%;
   height: 100%;
   padding: 100px 0;
+  box-sizing: border-box;
   background: url(${spaceship}) no-repeat 50% 50%;
   background-size: contain;
   position: absolute;
@@ -247,8 +95,12 @@ const Overlay = styled(FullscreenAbsolute)`
   background: radial-gradient(circle at 200px 50%, transparent 0%, #000 100%);
 `;
 
+const INTERVAL = 0.4;
+
 export default function Start() {
   const dispatch = useDispatch();
+
+  const [perspective, setPerspective] = useState<IVector>({ x: 0, y: 0 });
 
   const handleGameStart = () => {
     dispatch(changeGameStartedStatus(true));
@@ -256,24 +108,50 @@ export default function Start() {
     game.start();
   };
 
+  useLayoutEffect(() => {
+    document.addEventListener('mousemove', handleMouseMove);
+    return () => document.removeEventListener('mousemove', handleMouseMove);
+  }, [])
+
+  const throttled = throttle((e: React.MouseEvent) => {
+    const bounds = document.body.getBoundingClientRect();
+    const ratio: IVector = {
+      x: INTERVAL / bounds.width,
+      y: INTERVAL / bounds.height,
+    }
+    const y = +((e.clientX - bounds.width / 2) * ratio.x).toFixed(2);
+    const x = -((e.clientY - bounds.height / 2) * ratio.y).toFixed(2);
+    setPerspective({ x, y });
+  }, 50);
+
+  const handleMouseMove = (e: MouseEvent) => {
+    throttled(e);
+  };
+
+  const style = useMemo(() => ({
+    transform: `rotateX(${perspective.x}deg) rotateY(${perspective.y}deg)`,
+  }), [perspective]);
+
   return (
-    <StyledStart>
+    <Wrapper>
       <Spaceship />
-      <Window>
-        <Logo>
-          <h1>{GAME_TITLE}</h1>
-          <h1>{GAME_TITLE}</h1>
-          <h1>{GAME_TITLE}</h1>
-        </Logo>
-        <Controls>
-          <Button onClick={handleGameStart}>Start</Button>
-          <Button>Save/Load</Button>
-          <Button>Levels</Button>
-          <Button>Stats</Button>
-          <Button>About</Button>
-        </Controls>
-      </Window>
+      <StyledStart style={style}>
+        <Window>
+          <Logo>
+            <h1>{GAME_TITLE}</h1>
+            <h1>{GAME_TITLE}</h1>
+            <h1>{GAME_TITLE}</h1>
+          </Logo>
+          <Controls>
+            <Button onClick={handleGameStart}>Start</Button>
+            <Button>Save/Load</Button>
+            <Button>Levels</Button>
+            <Button>Stats</Button>
+            <Button>About</Button>
+          </Controls>
+        </Window>
+      </StyledStart>
       <Overlay />
-    </StyledStart>
+    </Wrapper>
   );
 }
