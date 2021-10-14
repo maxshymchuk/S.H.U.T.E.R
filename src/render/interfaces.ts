@@ -2,7 +2,7 @@ import { IEngine } from '../engine/interfaces/engine';
 
 export interface IRender {
   targetId: string;
-  draw: (game: IEngine) => void;
+  drawFrame: (game: IEngine) => void;
   clear: () => void;
 }
 

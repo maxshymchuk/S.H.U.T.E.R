@@ -1,12 +1,10 @@
 import { IEngine, IEngineParams } from './interfaces/engine';
-import { ENGINE_TICKRATE } from '../constants';
+import { ENGINE_TICKRATE, ENTITY_TYPE } from '../constants';
 import { Entity } from './entities/Entity';
 import { IRender } from '../render/interfaces';
 import Render from '../render/Render';
 import { Dispatch } from 'react';
 import cloneDeep from 'lodash.clonedeep';
-import { Player } from './entities/players/Player';
-import { Mate } from './entities/mates/Mate';
 
 export class Engine implements IEngine {
   private _initialEntities: Entity[] = [];
@@ -49,11 +47,11 @@ export class Engine implements IEngine {
   }
 
   public getPlayer() {
-    return this._entities.filter(entity => entity instanceof Player)[0];
+    return this._entities.filter(entity => entity.entityType === ENTITY_TYPE.PLAYER)[0];
   }
 
   public getMates() {
-    return this._entities.filter(entity => entity instanceof Mate);
+    return this._entities.filter(entity => entity.entityType === ENTITY_TYPE.MATE);
   }
 
   public start(): void {
@@ -79,7 +77,7 @@ export class Engine implements IEngine {
 
   private _tick(): void {
     this._entities?.forEach(entity => entity.tick());
-    this._render.draw(this);
+    this._render.drawFrame(this);
     this._tickCount++;
     // if (this._dispatch) {
     //   const gameState = extractGameState(this);

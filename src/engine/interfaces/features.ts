@@ -1,3 +1,5 @@
+import { ENTITY_TYPE } from '../../constants';
+
 export interface IDimension {
   width: number;
   height: number;
@@ -17,11 +19,11 @@ export interface IMovable {
   acceleration: IVector;
   friction: number;
   maxSpeed: number;
-  minSpeed: number;
 }
 
 export interface IEntity extends IElement, IMovable {
-  color: string;
+  readonly entityType: ENTITY_TYPE;
+  texture: IImage;
   hitbox: IVector[];
   limits: IDimension;
   isWithCollision: boolean;
@@ -29,4 +31,10 @@ export interface IEntity extends IElement, IMovable {
 
 export interface ISlave {
   master: IEntity;
+}
+
+export interface IImage {
+  source: HTMLImageElement;
+  originalWidth: number;
+  originalHeight: number;
 }

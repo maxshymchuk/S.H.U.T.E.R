@@ -1,13 +1,16 @@
-import { IDimension, IEntity, IVector } from '../interfaces/features';
+import { IDimension, IEntity, IImage, IVector } from '../interfaces/features';
 import { between } from '../../utils';
+import { ENTITY_TYPE, MINIMAL_SPEED } from '../../constants';
 
 export abstract class Entity implements IEntity {
-  protected constructor(x: number, y: number, width: number, height: number, color: string, hitbox?: IVector[]) {
+  public abstract readonly entityType: ENTITY_TYPE;
+
+  protected constructor(x: number, y: number, width: number, height: number, texture: IImage, hitbox?: IVector[]) {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
-    this.color = color;
+    this.texture = texture;
     this.hitbox = hitbox;
   }
 
@@ -49,16 +52,6 @@ export abstract class Entity implements IEntity {
 
   public set maxSpeed(maxSpeed: number) {
     this._maxSpeed = maxSpeed;
-  }
-
-  private _minSpeed: number = -Infinity;
-
-  public get minSpeed(): number {
-    return this._minSpeed;
-  }
-
-  public set minSpeed(minSpeed: number) {
-    this._minSpeed = minSpeed;
   }
 
   private _direction: IVector = { x: 0, y: 0 };
@@ -122,22 +115,26 @@ export abstract class Entity implements IEntity {
     this._height = between(height, 0, Infinity);
   }
 
-  private _color: string;
+  private _texture: IImage;
 
-  public get color(): string {
-    return this._color;
+  public get texture(): IImage {
+    return this._texture;
   }
 
-  public set color(color: string) {
-    this._color = color;
+  public set texture(texture: IImage) {
+    this._texture = texture;
   }
 
   private _hitbox: IVector[];
 
+  public get hitbox(): IVector[] {
+    return this._hitbox;
+  }
+
   public set hitbox(hitbox: IVector[]) {
     const limitedHitbox = hitbox?.map(vertice => ({
-      x: between(vertice.x, 0, this.width),
-      y: between(vertice.y, 0, this.height),
+      x: between(vertice.x, 0, this.texture.originalWidth),
+      y: between(vertice.y, 0, this.texture.originalHeight),
     }));
     this._hitbox = limitedHitbox || null;
     this._isWithCollision = !!this._hitbox;
@@ -150,8 +147,12 @@ export abstract class Entity implements IEntity {
   }
 
   public tick() {
-    this.speed.x = +(between(this.speed.x += this.direction.x * this.acceleration.x, this.minSpeed, this.maxSpeed) * this.friction).toFixed(3);
-    this.speed.y = +(between(this.speed.y += this.direction.y * this.acceleration.y, this.minSpeed, this.maxSpeed) * this.friction).toFixed(3);
+    const newSpeedX = this.speed.x + this.direction.x * this.acceleration.x
+    const newSpeedY = this.speed.y + this.direction.y * this.acceleration.y
+    this.speed.x = +(between(newSpeedX, -this.maxSpeed, this.maxSpeed) * this.friction).toFixed(3);
+    this.speed.y = +(between(newSpeedY, -this.maxSpeed, this.maxSpeed) * this.friction).toFixed(3);
+    if (Math.abs(this.speed.x) < MINIMAL_SPEED) this.speed.x = 0;
+    if (Math.abs(this.speed.y) < MINIMAL_SPEED) this.speed.y = 0;
     const newX = this.x + this.speed.x;
     const newY = this.y + this.speed.y;
     this.x = this.limits ? between(newX, 0, this.limits.width - this.width) : newX;

@@ -1,5 +1,8 @@
 import { IRender, IRenderParams } from './interfaces';
 import { IEngine } from '../engine/interfaces/engine';
+import { IEntity, IVector } from '../engine/interfaces/features';
+import { getColorByEntity } from '../utils';
+import { ENTITY_TYPE } from '../constants';
 
 export default class Render implements IRender {
   private _canvas: HTMLCanvasElement;
@@ -19,11 +22,55 @@ export default class Render implements IRender {
     this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
   }
 
-  public draw(game: IEngine) {
+  private _drawPlaceholder(entity: IEntity) {
+    this._context.fillStyle = getColorByEntity(entity);
+    this._context.fillRect(entity.x, entity.y, entity.width, entity.height);
+  }
+
+  private _rotate(entity: IEntity, degrees: number) {
+    const cx = entity.x + entity.width / 2;
+    const cy = entity.y + entity.height / 2;
+    this._context.translate(cx, cy);
+    this._context.rotate( (Math.PI / 180) * degrees);
+    this._context.translate(-cx, -cy);
+  }
+
+  private _drawTexture(entity: IEntity) {
+    if (!entity.texture) return;
+    if (entity.entityType === ENTITY_TYPE.ENEMY) {
+      this._rotate(entity, 180)
+      this._context.drawImage(entity.texture.source, entity.x, entity.y, entity.width, entity.height);
+      this._rotate(entity, -180)
+      return;
+    }
+    this._context.drawImage(entity.texture.source, entity.x, entity.y, entity.width, entity.height);
+  }
+
+  private _drawHitbox(entity: IEntity) {
+    this._context.beginPath();
+    this._context.strokeStyle = getColorByEntity(entity);
+    const ratio: IVector = {
+      x: entity.width / entity.texture.originalWidth,
+      y: entity.height / entity.texture.originalHeight,
+    };
+    entity.hitbox.forEach(vertice => {
+      if (entity.entityType === ENTITY_TYPE.ENEMY) {
+        this._rotate(entity, 180)
+        this._context.lineTo(entity.x + vertice.x * ratio.x, entity.y + vertice.y * ratio.y);
+        this._rotate(entity, -180)
+        return;
+      }
+      this._context.lineTo(entity.x + vertice.x * ratio.x, entity.y + vertice.y * ratio.y);
+    })
+    this._context.stroke();
+  }
+
+  public drawFrame(game: IEngine) {
     this.clear();
-    game.entities.forEach(entity => {
-      this._context.fillStyle = entity.color;
-      this._context.fillRect(entity.x, entity.y, entity.width, entity.height);
+    game.entities.sort((entity) => entity.entityType === ENTITY_TYPE.PLAYER ? 1 : -1).forEach(entity => {
+      // this._drawPlaceholder(entity);
+      this._drawTexture(entity);
+      this._drawHitbox(entity);
     });
   }
 
