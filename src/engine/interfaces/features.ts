@@ -23,7 +23,7 @@ export interface IMovable {
 
 export interface IEntity extends IElement, IMovable {
   readonly entityType: ENTITY_TYPE;
-  texture: IImage;
+  texture: Promise<IImage>;
   hitbox: IVector[];
   limits: IDimension;
   isWithCollision: boolean;

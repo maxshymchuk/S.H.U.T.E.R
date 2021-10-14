@@ -5,7 +5,7 @@ import { ENTITY_TYPE, MINIMAL_SPEED } from '../../constants';
 export abstract class Entity implements IEntity {
   public abstract readonly entityType: ENTITY_TYPE;
 
-  protected constructor(x: number, y: number, width: number, height: number, texture: IImage, hitbox?: IVector[]) {
+  protected constructor(x: number, y: number, width: number, height: number, texture: Promise<IImage>, hitbox: IVector[]) {
     this.x = x;
     this.y = y;
     this.width = width;
@@ -115,13 +115,13 @@ export abstract class Entity implements IEntity {
     this._height = between(height, 0, Infinity);
   }
 
-  private _texture: IImage;
+  private _texture: Promise<IImage>;
 
-  public get texture(): IImage {
+  public get texture(): Promise<IImage> {
     return this._texture;
   }
 
-  public set texture(texture: IImage) {
+  public set texture(texture: Promise<IImage>) {
     this._texture = texture;
   }
 
@@ -132,12 +132,8 @@ export abstract class Entity implements IEntity {
   }
 
   public set hitbox(hitbox: IVector[]) {
-    const limitedHitbox = hitbox?.map(vertice => ({
-      x: between(vertice.x, 0, this.texture.originalWidth),
-      y: between(vertice.y, 0, this.texture.originalHeight),
-    }));
-    this._hitbox = limitedHitbox || null;
-    this._isWithCollision = !!this._hitbox;
+    this._hitbox = hitbox;
+    this._isWithCollision = !!hitbox;
   }
 
   private _isWithCollision: boolean;

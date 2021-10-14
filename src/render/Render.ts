@@ -22,6 +22,15 @@ export default class Render implements IRender {
     this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
   }
 
+  public drawFrame(game: IEngine) {
+    this.clear();
+    game.entities.sort((entity) => entity.entityType === ENTITY_TYPE.PLAYER ? 1 : -1).forEach(async entity => {
+      // this._drawPlaceholder(entity);
+      await this._drawTexture(entity);
+      await this._drawHitbox(entity);
+    });
+  }
+
   private _drawPlaceholder(entity: IEntity) {
     this._context.fillStyle = getColorByEntity(entity);
     this._context.fillRect(entity.x, entity.y, entity.width, entity.height);
@@ -31,47 +40,42 @@ export default class Render implements IRender {
     const cx = entity.x + entity.width / 2;
     const cy = entity.y + entity.height / 2;
     this._context.translate(cx, cy);
-    this._context.rotate( (Math.PI / 180) * degrees);
+    this._context.rotate((Math.PI / 180) * degrees);
     this._context.translate(-cx, -cy);
   }
 
-  private _drawTexture(entity: IEntity) {
-    if (!entity.texture) return;
+  private async _drawTexture(entity: IEntity) {
+    const texture = await entity.texture;
+    if (!texture) return;
     if (entity.entityType === ENTITY_TYPE.ENEMY) {
-      this._rotate(entity, 180)
-      this._context.drawImage(entity.texture.source, entity.x, entity.y, entity.width, entity.height);
-      this._rotate(entity, -180)
+      this._rotate(entity, 180);
+      this._context.drawImage(texture.source, entity.x, entity.y, entity.width, entity.height);
+      this._rotate(entity, -180);
       return;
     }
-    this._context.drawImage(entity.texture.source, entity.x, entity.y, entity.width, entity.height);
+    this._context.drawImage(texture.source, entity.x, entity.y, entity.width, entity.height);
   }
 
-  private _drawHitbox(entity: IEntity) {
+  private async _drawHitbox(entity: IEntity) {
+    const texture = await entity.texture;
     this._context.beginPath();
     this._context.strokeStyle = getColorByEntity(entity);
+    this._context.lineWidth = 1;
     const ratio: IVector = {
-      x: entity.width / entity.texture.originalWidth,
-      y: entity.height / entity.texture.originalHeight,
+      x: texture.originalWidth ? entity.width / texture.originalWidth : 1,
+      y: texture.originalHeight ? entity.height / texture.originalHeight : 1,
     };
     entity.hitbox.forEach(vertice => {
       if (entity.entityType === ENTITY_TYPE.ENEMY) {
-        this._rotate(entity, 180)
+        this._rotate(entity, 180);
         this._context.lineTo(entity.x + vertice.x * ratio.x, entity.y + vertice.y * ratio.y);
-        this._rotate(entity, -180)
+        this._rotate(entity, -180);
         return;
       }
       this._context.lineTo(entity.x + vertice.x * ratio.x, entity.y + vertice.y * ratio.y);
-    })
-    this._context.stroke();
-  }
-
-  public drawFrame(game: IEngine) {
-    this.clear();
-    game.entities.sort((entity) => entity.entityType === ENTITY_TYPE.PLAYER ? 1 : -1).forEach(entity => {
-      // this._drawPlaceholder(entity);
-      this._drawTexture(entity);
-      this._drawHitbox(entity);
     });
+    this._context.stroke();
+    this._context.closePath();
   }
 
   private _init(target: HTMLElement) {
