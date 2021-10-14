@@ -27,4 +27,15 @@ export const InterfaceElement = styled.div`
 `;
 
 export const Button = styled.button`
+  width: 200px;
+  outline: none;
+  border: none;
+  color: #FFF;
+  background: none;
+  font-size: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 5px;
 `;

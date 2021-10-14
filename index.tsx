@@ -9,6 +9,9 @@ import rootReducer from "./src/store/store";
 const GlobalStyles = createGlobalStyle`
   body {
     margin: 0;
+    background-color: #333;
+    overflow: hidden;
+    font-family: ARIAL, sans-serif;
   }
 `
 
