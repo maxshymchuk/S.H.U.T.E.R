@@ -1,20 +1,19 @@
-import React, { ReactNode } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
+import { TitleFontCss } from '../../styles';
+import { stylizeText } from '../../utils';
 
-interface ITitle {
-  children: ReactNode;
+interface ITitleProps {
+  title: string;
 }
 
 const StyledTitle = styled.h1`
-  display: block;
-  width: 100%;
-  clear: both;
-  letter-spacing: 10px;
-  font-size: 30px;
-  font-family: Consolas, serif;
-  text-align: center;
+  ${TitleFontCss};
+  margin-bottom: 40px;
 `;
 
-export default function Title({ children }: ITitle) {
-  return <StyledTitle>{children}</StyledTitle>;
+export default function Title({ title }: ITitleProps) {
+  const transformedTitle = useMemo(() => stylizeText(title), [title]);
+
+  return <StyledTitle>{transformedTitle}</StyledTitle>;
 }

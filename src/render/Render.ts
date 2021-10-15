@@ -75,7 +75,7 @@ export default class Render implements IRender {
       this._context.lineTo(entity.x + vertice.x * ratio.x, entity.y + vertice.y * ratio.y);
     });
     this._context.stroke();
-    this._context.closePath();
+    // this._context.closePath();
   }
 
   private _init(target: HTMLElement) {

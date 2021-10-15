@@ -1,6 +1,10 @@
 import { IEntity, IImage } from './engine/interfaces/features';
 import { ENTITY_TYPE, THEME } from './constants';
 
+export function stylizeText(text: string) {
+  return text.split('').join('.');
+}
+
 export function between(test: number, min: number, max: number) {
   if (test < min) return min;
   if (test > max) return max;

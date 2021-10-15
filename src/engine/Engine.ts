@@ -35,9 +35,7 @@ export class Engine implements IEngine {
 
   public set entities(entities: Entity[]) {
     this._entities = entities;
-    if (!this._initialEntities.length) {
-      this._initialEntities = cloneDeep(entities);
-    }
+    this._initialEntities = cloneDeep(entities);
   }
 
   private _dispatch: Dispatch<any>;
@@ -71,7 +69,7 @@ export class Engine implements IEngine {
     console.log('Game reset');
     this.render.clear();
     this.stop();
-    this._entities = this._initialEntities;
+    this._entities = cloneDeep(this._initialEntities);
     this._tickCount = 0;
   }
 

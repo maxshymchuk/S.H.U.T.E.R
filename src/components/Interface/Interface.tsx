@@ -6,7 +6,12 @@ import { IRootState } from '../../store/store';
 import Start from './Start/Start';
 import Pause from './Pause/Pause';
 
-const StyledInterface = styled(FullscreenAbsolute)`
+interface IInterfaceProps {
+  isPaused: boolean;
+}
+
+const StyledInterface = styled(FullscreenAbsolute)<IInterfaceProps>`
+  backdrop-filter: ${props => props.isPaused ? 'grayscale(100%)' : null};
 `;
 
 export default function Interface() {
@@ -14,7 +19,7 @@ export default function Interface() {
   const isGameRunning = useSelector((store: IRootState) => store.isGameRunning);
 
   return (
-    <StyledInterface>
+    <StyledInterface isPaused={isGameStarted && !isGameRunning}>
       {!isGameStarted && <Start />}
       {isGameStarted && !isGameRunning && <Pause />}
     </StyledInterface>
