@@ -1,5 +1,5 @@
 import React, { ReactNode, useLayoutEffect, useMemo, useState } from 'react';
-import { IVector } from '../../../engine/interfaces/features';
+import { IVector } from '../../../../engine/interfaces/features';
 import styled from 'styled-components';
 import throttle from 'lodash.throttle';
 
@@ -32,7 +32,7 @@ export default function PerspectiveDistortion({ children }: IPerspectiveDistorti
     document.addEventListener('mousemove', handleMouseMove);
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
-    }
+    };
   }, []);
 
   const throttled = throttle((e: React.MouseEvent) => {

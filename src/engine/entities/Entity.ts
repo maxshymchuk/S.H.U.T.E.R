@@ -143,8 +143,8 @@ export abstract class Entity implements IEntity {
   }
 
   public tick() {
-    const newSpeedX = this.speed.x + this.direction.x * this.acceleration.x
-    const newSpeedY = this.speed.y + this.direction.y * this.acceleration.y
+    const newSpeedX = this.speed.x + this.direction.x * this.acceleration.x;
+    const newSpeedY = this.speed.y + this.direction.y * this.acceleration.y;
     this.speed.x = +(between(newSpeedX, -this.maxSpeed, this.maxSpeed) * this.friction).toFixed(3);
     this.speed.y = +(between(newSpeedY, -this.maxSpeed, this.maxSpeed) * this.friction).toFixed(3);
     if (Math.abs(this.speed.x) < MINIMAL_SPEED) this.speed.x = 0;

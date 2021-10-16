@@ -12,7 +12,6 @@ export default function ButtonContinue() {
     game.start();
   };
 
-
   return (
     <Button onClick={handleGameContinue}>Continue</Button>
   );

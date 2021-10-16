@@ -1,6 +1,6 @@
 import React from 'react';
-import { WindowControls } from '../../../styles/styles';
-import Subtitle from '../Subtitle/Subtitle';
+import { WindowControls } from '../../../../styles/styles';
+import Subtitle from '../../shared/Subtitle/Subtitle';
 
 export default function Overview() {
   return (

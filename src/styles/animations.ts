@@ -2,8 +2,12 @@ import { css } from 'styled-components';
 
 export const appearingAnimation = css`
   @keyframes appearing {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
   animation: appearing 0.5s;
 `;
@@ -26,7 +30,7 @@ export const blinkingAnimation = css<any>`
     }
   }
   animation: blinking 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-`
+`;
 
 export const glitch1Animation = css<any>`
   @keyframes glitch1 {
@@ -84,7 +88,7 @@ export const glitch1Animation = css<any>`
     }
   }
   animation: glitch1 2.5s infinite;
-`
+`;
 
 export const glitch2Animation = css<any>`
   @keyframes glitch2 {
@@ -142,7 +146,7 @@ export const glitch2Animation = css<any>`
     }
   }
   animation: glitch2 2.5s infinite;
-`
+`;
 
 export const glitch3Animation = css<any>`
   @keyframes glitch3 {
@@ -200,4 +204,4 @@ export const glitch3Animation = css<any>`
     }
   }
   animation: glitch3 2.5s infinite;
-`
+`;

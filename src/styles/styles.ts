@@ -101,3 +101,14 @@ export const SubtitleFontCss = css`
   letter-spacing: 8px;
   margin: 0;
 `;
+
+export const ErrorStyle = styled(FullscreenAbsolute)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 10%;
+  user-select: none;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+`;

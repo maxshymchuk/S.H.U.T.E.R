@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import Interface from './components/Interface/Interface';
 import Canvas from './components/Canvas/Canvas';
 import Controls from './components/Controls/Controls';
-import Loader from './components/Interface/Loader/Loader';
+import Loader from './components/Interface/shared/Loader/Loader';
 import game from './engine/Engine';
 import { configToEntities } from './engine/factories/configToEntities';
 import { entitiesConfig } from './configs';
 import { useDispatch } from 'react-redux';
+import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
 
 const StyledApp = styled.div`
   display: flex;
@@ -30,11 +31,13 @@ export default function App() {
   }, []);
 
   return (
-    <StyledApp>
-      <Canvas />
-      <Interface />
-      <Controls />
-      {isLoading && <Loader />}
-    </StyledApp>
+    <ErrorBoundary>
+      <StyledApp>
+        <Canvas />
+        <Interface />
+        <Controls />
+        {isLoading && <Loader />}
+      </StyledApp>
+    </ErrorBoundary>
   );
 }

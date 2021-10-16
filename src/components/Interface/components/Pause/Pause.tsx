@@ -1,10 +1,10 @@
 import React from 'react';
-import { Overlay, Window, WindowControls } from '../../../styles/styles';
-import GlitchTitle from '../GlitchTitle/GlitchTitle';
-import PerspectiveDistortion from '../PerspectiveDistortion/PerspectiveDistortion';
+import { Overlay, Window, WindowControls } from '../../../../styles/styles';
+import GlitchTitle from '../../shared/GlitchTitle/GlitchTitle';
+import PerspectiveDistortion from '../../shared/PerspectiveDistortion/PerspectiveDistortion';
+import ButtonMainMenu from '../../buttons/ButtonMainMenu';
+import ButtonContinue from '../../buttons/ButtonContinue';
 import Overview from '../Overview/Overview';
-import ButtonMainMenu from '../Buttons/ButtonMainMenu';
-import ButtonContinue from '../Buttons/ButtonContinue';
 
 export default function Pause() {
   return (

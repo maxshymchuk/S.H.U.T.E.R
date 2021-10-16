@@ -19,7 +19,7 @@ export default function Canvas() {
 
   useEffect(() => {
     console.log(gameState);
-  }, [gameState])
+  }, [gameState]);
 
   return (
     <StyledCanvas id={CANVAS_ID} />

@@ -1,16 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Overlay, Window, WindowControls } from '../../../styles/styles';
-import { GAME_TITLE } from '../../../constants';
-import GlitchTitle from '../GlitchTitle/GlitchTitle';
-import PerspectiveDistortion from '../PerspectiveDistortion/PerspectiveDistortion';
-import ButtonSaveLoad from '../Buttons/ButtonSaveLoad';
-import ButtonLevels from '../Buttons/ButtonLevels';
-import ButtonAbout from '../Buttons/ButtonAbout';
-import ButtonStats from '../Buttons/ButtonStats';
-import ButtonNewGame from '../Buttons/ButtonNewGame';
+import { Overlay, Window, WindowControls } from '../../../../styles/styles';
+import { GAME_TITLE } from '../../../../constants';
+import GlitchTitle from '../../shared/GlitchTitle/GlitchTitle';
+import PerspectiveDistortion from '../../shared/PerspectiveDistortion/PerspectiveDistortion';
+import ButtonSaveLoad from '../../buttons/ButtonSaveLoad';
+import ButtonLevels from '../../buttons/ButtonLevels';
+import ButtonAbout from '../../buttons/ButtonAbout';
+import ButtonStats from '../../buttons/ButtonStats';
+import ButtonNewGame from '../../buttons/ButtonNewGame';
 
-const spaceship = require('../../../assets/interface/spaceship.png');
+const spaceship = require('../../../../assets/interface/spaceship.png');
 
 const Spaceship = styled.div`
   width: 50%;

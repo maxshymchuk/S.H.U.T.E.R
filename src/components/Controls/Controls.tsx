@@ -26,7 +26,7 @@ export default function Controls() {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('keyup', handleKeyUp);
-    }
+    };
   }, []);
 
   useLayoutEffect(() => {
@@ -70,7 +70,7 @@ export default function Controls() {
     if (keyState['KeyS'] || keyState['ArrowDown']) y = 1;
     if (keyState['KeyD'] || keyState['ArrowRight']) x = 1;
     player.direction = { x, y };
-  }
+  };
 
   return <StyledControls />;
 }

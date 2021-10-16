@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import TutorialMessage from './TutorialMessage/TutorialMessage';
-import { FullscreenAbsolute } from '../../../styles/styles';
-import { IVector } from '../../../engine/interfaces/features';
+import { FullscreenAbsolute } from '../../../../styles/styles';
+import { IVector } from '../../../../engine/interfaces/features';
 
 const StyledTutorial = styled(FullscreenAbsolute)`
 `;

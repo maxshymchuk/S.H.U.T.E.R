@@ -7,9 +7,9 @@ export const Global = createGlobalStyle`
     background-color: ${THEME.BACKGROUND_COLOR};
     overflow: hidden;
   }
-  
+
   * {
     font-family: ARIAL, sans-serif;
     color: ${THEME.TEXT_COLOR};
   }
-`
+`;

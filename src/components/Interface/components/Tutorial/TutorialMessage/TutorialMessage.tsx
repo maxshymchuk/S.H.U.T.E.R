@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { InterfaceElement } from '../../../../styles/styles';
-import { IVector } from '../../../../engine/interfaces/features';
+import { InterfaceElement } from '../../../../../styles/styles';
+import { IVector } from '../../../../../engine/interfaces/features';
 
 interface ITutorialMessageProps {
   position: IVector;

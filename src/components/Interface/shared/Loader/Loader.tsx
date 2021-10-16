@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { THEME } from '../../../constants';
-import { FullscreenAbsolute } from '../../../styles/styles';
-import { blinkingAnimation } from '../../../styles/animations';
+import { THEME } from '../../../../constants';
+import { FullscreenAbsolute } from '../../../../styles/styles';
+import { blinkingAnimation } from '../../../../styles/animations';
 
 interface ILoaderProps {
   color?: string;
