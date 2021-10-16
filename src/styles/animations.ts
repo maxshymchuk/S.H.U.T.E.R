@@ -1,20 +1,14 @@
-import { createGlobalStyle } from 'styled-components';
-import { THEME } from './constants';
+import { css } from 'styled-components';
 
-export const GlobalStyles = createGlobalStyle`
-  body {
-    margin: 0;
-    background-color: ${THEME.BACKGROUND_COLOR};
-    overflow: hidden;
+export const appearingAnimation = css`
+  @keyframes appearing {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
-  
-  * {
-    font-family: ARIAL, sans-serif;
-    color: ${THEME.TEXT_COLOR};
-  }
-`
+  animation: appearing 0.5s;
+`;
 
-export const GlobalAnimations = createGlobalStyle<any>`
+export const blinkingAnimation = css<any>`
   @keyframes blinking {
     0% {
       top: ${props => `${props.size / 2 - props.width}px`};
@@ -31,7 +25,10 @@ export const GlobalAnimations = createGlobalStyle<any>`
       opacity: 0;
     }
   }
+  animation: blinking 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+`
 
+export const glitch1Animation = css<any>`
   @keyframes glitch1 {
     0% {
       transform: none;
@@ -86,7 +83,10 @@ export const GlobalAnimations = createGlobalStyle<any>`
       opacity: 1;
     }
   }
+  animation: glitch1 2.5s infinite;
+`
 
+export const glitch2Animation = css<any>`
   @keyframes glitch2 {
     0% {
       transform: none;
@@ -141,7 +141,10 @@ export const GlobalAnimations = createGlobalStyle<any>`
       opacity: 0.25;
     }
   }
+  animation: glitch2 2.5s infinite;
+`
 
+export const glitch3Animation = css<any>`
   @keyframes glitch3 {
     0% {
       transform: none;
@@ -196,4 +199,5 @@ export const GlobalAnimations = createGlobalStyle<any>`
       opacity: 0.25;
     }
   }
+  animation: glitch3 2.5s infinite;
 `

@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import Title from '../Title/Title';
+import { glitch1Animation, glitch2Animation, glitch3Animation } from '../../../styles/animations';
 
-interface IGlitchProps {
+interface IGlitchTitleProps {
   title: string;
 }
 
-const Logo = styled.div`
+const GlitchTitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -14,27 +15,27 @@ const Logo = styled.div`
   position: relative;
   
   > * {
-    animation: glitch1 2.5s infinite;
+    ${glitch1Animation};
     :not(:first-child) {
       position: absolute;
     }
     :nth-child(2) {
       color: #67f3da;
-      animation: glitch2 2.5s infinite;
+      ${glitch2Animation};
     }
     :nth-child(3) {
       color: #f16f6f;
-      animation: glitch3 2.5s infinite;
+      ${glitch3Animation};
     }
   }
 `;
 
-export default function Glitch({ title }: IGlitchProps) {
+export default function GlitchTitle({ title }: IGlitchTitleProps) {
   return (
-    <Logo>
+    <GlitchTitleWrapper>
       <Title title={title} />
       <Title title={title} />
       <Title title={title} />
-    </Logo>
+    </GlitchTitleWrapper>
   );
 }

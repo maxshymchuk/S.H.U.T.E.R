@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { Invisible } from '../../styles';
+import { Invisible } from '../../styles/styles';
 import game from '../../engine/Engine';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../store/store';

@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
-import { SUBTITLE_FONT_SIZE, TITLE_FONT_SIZE } from './constants';
+import { SUBTITLE_FONT_SIZE, TITLE_FONT_SIZE } from '../constants';
+import { appearingAnimation } from './animations';
 
 interface IWindowProps {
   left?: boolean;
@@ -17,6 +18,7 @@ export const Window = styled.div<IWindowProps>`
   flex-direction: column;
   transform: ${props => getMatrix(props.left, props.right)};
   margin-left: ${props => props.left ? 0 : 'auto'};
+  ${appearingAnimation};
 
   * {
     user-select: none;
@@ -60,6 +62,7 @@ export const FullscreenAbsolute = styled.div`
 export const Overlay = styled(FullscreenAbsolute)`
   pointer-events: none;
   background: radial-gradient(circle at 200px 50%, transparent 0%, #000 100%);
+  ${appearingAnimation};
 `;
 
 export const InterfaceElement = styled.div`

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '../../../styles';
+import { Button } from '../../../styles/styles';
 
 export default function ButtonSaveLoad() {
   return (

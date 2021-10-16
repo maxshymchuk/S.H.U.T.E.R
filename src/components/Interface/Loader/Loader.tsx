@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { THEME } from '../../constants';
-import { FullscreenAbsolute } from '../../styles';
+import { THEME } from '../../../constants';
+import { FullscreenAbsolute } from '../../../styles/styles';
+import { blinkingAnimation } from '../../../styles/animations';
 
 interface ILoaderProps {
   color?: string;
@@ -32,7 +33,7 @@ const Spinner = styled.div<ILoaderProps>`
     border: ${props => `${props.width}px`} solid ${props => `${props.color}`};
     opacity: 1;
     border-radius: 50%;
-    animation: blinking 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+    ${blinkingAnimation};
   }
 
   &:after {

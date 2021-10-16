@@ -4,14 +4,13 @@ import App from "./src/App";
 import {Provider} from "react-redux";
 import {createStore} from "redux";
 import rootReducer from "./src/store/store";
-import { GlobalStyles, GlobalAnimations } from './src/globalStyles';
+import { Global } from './src/styles/global';
 
 const store = createStore(rootReducer);
 
 ReactDOM.render(
   <Provider store={store}>
-    <GlobalStyles />
-    <GlobalAnimations />
+    <Global />
     <App/>
   </Provider>,
   document.getElementById('main')

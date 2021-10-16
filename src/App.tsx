@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Interface from './components/Interface/Interface';
 import Canvas from './components/Canvas/Canvas';
 import Controls from './components/Controls/Controls';
-import Loader from './components/Loader/Loader';
+import Loader from './components/Interface/Loader/Loader';
 import game from './engine/Engine';
 import { configToEntities } from './engine/factories/configToEntities';
 import { entitiesConfig } from './configs';

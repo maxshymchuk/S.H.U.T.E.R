@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Overlay, Window, WindowControls } from '../../../styles';
+import { Overlay, Window, WindowControls } from '../../../styles/styles';
 import { GAME_TITLE } from '../../../constants';
-import Glitch from '../../Glitch/Glitch';
-import PerspectiveDistortion from '../../PerspectiveDistortion/PerspectiveDistortion';
+import GlitchTitle from '../GlitchTitle/GlitchTitle';
+import PerspectiveDistortion from '../PerspectiveDistortion/PerspectiveDistortion';
 import ButtonSaveLoad from '../Buttons/ButtonSaveLoad';
 import ButtonLevels from '../Buttons/ButtonLevels';
 import ButtonAbout from '../Buttons/ButtonAbout';
@@ -30,7 +30,7 @@ export default function Start() {
       <Overlay />
       <PerspectiveDistortion>
         <Window left>
-          <Glitch title={GAME_TITLE} />
+          <GlitchTitle title={GAME_TITLE} />
           <WindowControls>
             <ButtonNewGame />
             <ButtonSaveLoad />

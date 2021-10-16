@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { SubtitleFontCss } from '../../styles';
+import { SubtitleFontCss } from '../../../styles/styles';
 
 interface ISubtitle {
   title: string;

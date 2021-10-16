@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { TitleFontCss } from '../../styles';
-import { stylizeText } from '../../utils';
+import { TitleFontCss } from '../../../styles/styles';
+import { stylizeText } from '../../../utils';
 
 interface ITitleProps {
   title: string;

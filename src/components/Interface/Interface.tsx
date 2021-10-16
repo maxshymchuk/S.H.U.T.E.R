@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FullscreenAbsolute } from '../../styles';
+import { FullscreenAbsolute } from '../../styles/styles';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../../store/store';
 import Start from './Start/Start';

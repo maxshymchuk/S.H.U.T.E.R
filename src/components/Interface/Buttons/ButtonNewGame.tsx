@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '../../../styles';
+import { Button } from '../../../styles/styles';
 import { useDispatch } from 'react-redux';
 import { changeGameRunningStatus, changeGameStartedStatus } from '../../../store/actions';
 import game from '../../../engine/Engine';
