@@ -8,9 +8,9 @@ export function configToEntities(entities: IEntityConfig[]): Entity[] {
   return entities.map(entity => {
     switch (entity.type) {
       case ENTITY_TYPE.PLAYER:
-        return new Player(entity.x, entity.y, entity.width, entity.height);
+        return new Player(entity.x, entity.y);
       case ENTITY_TYPE.ENEMY:
-        return new Enemy(entity.x, entity.y, entity.width, entity.height);
+        return new Enemy(entity.x, entity.y);
     }
   });
 }

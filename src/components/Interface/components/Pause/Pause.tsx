@@ -1,5 +1,5 @@
 import React from 'react';
-import { Overlay, Window, WindowControls } from '../../../../styles/styles';
+import { Window, WindowControls } from '../../../../styles/styles';
 import GlitchTitle from '../../shared/GlitchTitle/GlitchTitle';
 import PerspectiveDistortion from '../../shared/PerspectiveDistortion/PerspectiveDistortion';
 import ButtonMainMenu from '../../buttons/ButtonMainMenu';
@@ -8,20 +8,17 @@ import Overview from '../Overview/Overview';
 
 export default function Pause() {
   return (
-    <>
-      <Overlay />
-      <PerspectiveDistortion>
-        <Window left>
-          <GlitchTitle title='Pause' />
-          <WindowControls>
-            <ButtonContinue />
-            <ButtonMainMenu />
-          </WindowControls>
-        </Window>
-        <Window right>
-          <Overview />
-        </Window>
-      </PerspectiveDistortion>
-    </>
+    <PerspectiveDistortion>
+      <Window left>
+        <GlitchTitle title='Pause' />
+        <WindowControls>
+          <ButtonContinue />
+          <ButtonMainMenu />
+        </WindowControls>
+      </Window>
+      <Window right>
+        <Overview />
+      </Window>
+    </PerspectiveDistortion>
   );
 }

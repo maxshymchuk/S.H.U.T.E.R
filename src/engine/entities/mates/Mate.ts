@@ -5,11 +5,13 @@ import { ENTITY_TYPE } from '../../../constants';
 
 const ship = require('../../../assets/player.png');
 
+const SIZE = 100;
+
 const hitbox = [
   { x: 0, y: 0 },
-  { x: 1000, y: 0 },
-  { x: 1000, y: 1000 },
-  { x: 0, y: 1000 },
+  { x: 1, y: 0 },
+  { x: 1, y: 1 },
+  { x: 0, y: 1 },
   { x: 0, y: 0 },
 ];
 
@@ -18,8 +20,8 @@ const texture = createImageByUrl(ship);
 export class Mate extends Entity implements ISlave {
   public readonly entityType = ENTITY_TYPE.MATE;
 
-  constructor(x: number, y: number, width: number, height: number, master: IEntity) {
-    super(x, y, width, height, texture, hitbox);
+  constructor(x: number, y: number, master: IEntity) {
+    super(x, y, SIZE, SIZE, texture, hitbox);
     this._master = master;
     this.speed = master.speed;
     this.acceleration = master.acceleration;

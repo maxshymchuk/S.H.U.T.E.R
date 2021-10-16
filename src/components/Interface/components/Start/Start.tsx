@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Overlay, Window, WindowControls } from '../../../../styles/styles';
+import { Window, WindowControls } from '../../../../styles/styles';
 import { GAME_TITLE } from '../../../../constants';
 import GlitchTitle from '../../shared/GlitchTitle/GlitchTitle';
 import PerspectiveDistortion from '../../shared/PerspectiveDistortion/PerspectiveDistortion';
@@ -27,7 +27,6 @@ export default function Start() {
   return (
     <>
       <Spaceship />
-      <Overlay />
       <PerspectiveDistortion>
         <Window left>
           <GlitchTitle title={GAME_TITLE} />

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { FullscreenAbsolute } from '../../styles/styles';
+import { FullscreenAbsolute, Overlay } from '../../styles/styles';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../../store/store';
 import Start from './components/Start/Start';
@@ -18,6 +18,7 @@ export default function Interface() {
 
   return (
     <StyledInterface style={style}>
+      {!isGameRunning && <Overlay />}
       {!isGameStarted && <Start />}
       {isPaused && <Pause />}
     </StyledInterface>

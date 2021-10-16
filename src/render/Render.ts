@@ -1,6 +1,6 @@
 import { IRender, IRenderParams } from './interfaces';
 import { IEngine } from '../engine/interfaces/engine';
-import { IEntity, IVector } from '../engine/interfaces/features';
+import { IEntity } from '../engine/interfaces/features';
 import { getColorByEntity } from '../utils';
 import { ENTITY_TYPE } from '../constants';
 
@@ -57,25 +57,19 @@ export default class Render implements IRender {
   }
 
   private async _drawHitbox(entity: IEntity) {
-    const texture = await entity.texture;
     this._context.beginPath();
     this._context.strokeStyle = getColorByEntity(entity);
     this._context.lineWidth = 1;
-    const ratio: IVector = {
-      x: texture.originalWidth ? entity.width / texture.originalWidth : 1,
-      y: texture.originalHeight ? entity.height / texture.originalHeight : 1,
-    };
     entity.hitbox.forEach(vertice => {
       if (entity.entityType === ENTITY_TYPE.ENEMY) {
         this._rotate(entity, 180);
-        this._context.lineTo(entity.x + vertice.x * ratio.x, entity.y + vertice.y * ratio.y);
+        this._context.lineTo(entity.x + vertice.x * entity.width, entity.y + vertice.y * entity.width);
         this._rotate(entity, -180);
         return;
       }
-      this._context.lineTo(entity.x + vertice.x * ratio.x, entity.y + vertice.y * ratio.y);
+      this._context.lineTo(entity.x + vertice.x * entity.width, entity.y + vertice.y * entity.width);
     });
     this._context.stroke();
-    // this._context.closePath();
   }
 
   private _init(target: HTMLElement) {
