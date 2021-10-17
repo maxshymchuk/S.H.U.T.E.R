@@ -18,9 +18,10 @@ export const PerspectiveWrapper = styled.div`
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   height: 100%;
-  padding: 30vh 100px 100px 100px;
+  padding: 100px;
   box-sizing: border-box;
   transition: 0.1s transform;
 `;

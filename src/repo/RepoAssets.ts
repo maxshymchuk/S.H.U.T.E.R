@@ -1,12 +1,11 @@
-import { IRepo } from './interfaces';
+import { IRepo, IRepoAsset } from './interfaces';
 import { IAssetConfig } from '../engine/interfaces/configs';
-import { IAsset } from '../engine/interfaces/features';
 
 export default class RepoAssets implements IRepo<IAssetConfig[]> {
-  private _assets: IAsset[] = [];
+  private _assets: IRepoAsset[] = [];
   private _assetsConfig: IAssetConfig[];
 
-  public get assets(): IAsset[] {
+  public get assets(): IRepoAsset[] {
     return this._assets;
   }
 
@@ -22,11 +21,10 @@ export default class RepoAssets implements IRepo<IAssetConfig[]> {
         if (image.naturalWidth && image.naturalHeight) {
           clearInterval(poll);
           this._assets.push({
+            type: config.type,
             sprites: image,
             spriteWidth: config.spriteWidth,
             spriteHeight: config.spriteHeight,
-            x: config.x,
-            y: config.y,
             width: config.width,
             height: config.height,
           });

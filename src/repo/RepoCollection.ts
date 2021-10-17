@@ -1,8 +1,9 @@
 import RepoAssets from './RepoAssets';
 import { IAssetConfig, ISoundConfig } from '../engine/interfaces/configs';
 import RepoSounds from './RepoSounds';
-import { IRepoCollection, IWithAssets, IWithSounds } from './interfaces';
-import { IAsset, ISound } from '../engine/interfaces/features';
+import { IRepoAsset, IRepoCollection, IWithAssets, IWithSounds } from './interfaces';
+import { ISound } from '../engine/interfaces/features';
+import { ASSET_TYPES, SOUND_TYPES } from '../constants';
 
 export class RepoCollection implements IRepoCollection, IWithAssets, IWithSounds {
   private _assetsRepo: RepoAssets;
@@ -13,16 +14,17 @@ export class RepoCollection implements IRepoCollection, IWithAssets, IWithSounds
     this._soundsRepo = new RepoSounds();
   }
 
-  public get assets(): IAsset[] {
-    return this._assetsRepo.assets;
+  public getAssets(type: ASSET_TYPES): IRepoAsset[] {
+    return this._assetsRepo.assets.filter(asset => asset.type === type);
   }
 
   public setAssets(config: IAssetConfig[]): void {
     this._assetsRepo.config = config;
   }
 
-  public get sounds(): ISound[] {
-    return this._soundsRepo.sounds;
+
+  public getSounds(type: SOUND_TYPES): ISound[] {
+    return this._soundsRepo.sounds.filter(sound => sound.type === type);
   }
 
   public setSounds(config: ISoundConfig[]): void {

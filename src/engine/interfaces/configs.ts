@@ -1,15 +1,13 @@
 import { IVector } from './features';
-import { ENTITY_TYPE } from '../../constants';
+import { ASSET_TYPES, ENTITY_TYPES } from '../../constants';
 
 export interface IEntityConfig extends IVector {
-  type: ENTITY_TYPE;
+  type: ENTITY_TYPES;
 }
 
 export interface IAssetConfig {
-  type: ENTITY_TYPE;
+  type: ASSET_TYPES;
   src: string,
-  x: number;
-  y: number;
   width: number,
   height: number,
   spriteWidth: number;
@@ -17,6 +15,6 @@ export interface IAssetConfig {
 }
 
 export interface ISoundConfig {
-  type: ENTITY_TYPE;
+  type: ENTITY_TYPES;
   src: string,
 }

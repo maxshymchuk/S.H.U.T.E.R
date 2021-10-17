@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FullscreenAbsolute, Overlay } from '../../styles/styles';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../../store/store';
-import Start from './components/Start/Start';
+import MainMenu from './components/MainMenu/MainMenu';
 import Pause from './components/Pause/Pause';
 
 const StyledInterface = styled(FullscreenAbsolute)``;
@@ -19,7 +19,7 @@ export default function Interface() {
   return (
     <StyledInterface style={style}>
       {!isGameRunning && <Overlay />}
-      {!isGameStarted && <Start />}
+      {!isGameStarted && <MainMenu />}
       {isPaused && <Pause />}
     </StyledInterface>
   );

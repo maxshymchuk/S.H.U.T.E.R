@@ -19,9 +19,17 @@ export enum ERRORS {
   REPO_INIT = 'Cannot init repository',
 }
 
-export enum ENTITY_TYPE {
+export enum ENTITY_TYPES {
   PLAYER = 'player',
   ENEMY = 'enemy',
   MATE = 'mate',
   OBSTACLE = 'obstacle',
+}
+
+export enum ASSET_TYPES {
+  SHIPS = 'ships',
+}
+
+export enum SOUND_TYPES {
+  SHIPS = 'ships',
 }

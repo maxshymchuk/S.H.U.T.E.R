@@ -23,7 +23,7 @@ const Spaceship = styled.div`
   right: 100px;
 `;
 
-export default function Start() {
+export default function MainMenu() {
   return (
     <>
       <Spaceship />

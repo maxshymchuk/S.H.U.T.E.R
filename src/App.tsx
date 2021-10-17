@@ -51,7 +51,6 @@ export default function App() {
 
   useLayoutEffect(() => {
     if (!isRepoLoaded) return;
-    console.log('REPO COLLECTION', repo.assets)
     game.entities = configToEntities(entitiesConfig);
     game.dispatch = dispatch;
   }, [isRepoLoaded]);

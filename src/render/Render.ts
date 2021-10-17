@@ -2,7 +2,7 @@ import { IRender, IRenderParams } from './interfaces';
 import { IEngine } from '../engine/interfaces/engine';
 import { IAsset, IEntity } from '../engine/interfaces/features';
 import { getColorByEntity } from '../utils';
-import { ENTITY_TYPE } from '../constants';
+import { ENTITY_TYPES } from '../constants';
 
 export default class Render implements IRender {
   private _canvas: HTMLCanvasElement;
@@ -24,7 +24,7 @@ export default class Render implements IRender {
 
   public drawFrame(game: IEngine) {
     this.clear();
-    game.entities.sort((entity) => entity.entityType === ENTITY_TYPE.PLAYER ? 1 : -1).forEach(entity => {
+    game.entities.sort((entity) => entity.entityType === ENTITY_TYPES.PLAYER ? 1 : -1).forEach(entity => {
       // this._drawPlaceholder(entity);
       this._drawTexture(entity);
       // this._drawHitbox(entity);
@@ -44,23 +44,23 @@ export default class Render implements IRender {
     this._context.translate(-cx, -cy);
   }
 
-  private _tempAnimationTestExtractSpriteByDirection(entity: IEntity): IAsset {
-    return {
-      ...entity.asset,
-      x: (entity.direction.x + 1) * entity.asset.spriteWidth,
-    }
+  private _tempAnimationTestExtractSpriteByDirection(entity: IEntity): IAsset[] {
+    return entity.assets.map(asset => ({
+      ...asset,
+      x: (entity.direction.x + 1) * asset.spriteWidth,
+    }));
   }
 
   private _drawTexture(entity: IEntity) {
-    if (!entity.asset) return;
-    const asset = this._tempAnimationTestExtractSpriteByDirection(entity);
-    if (entity.entityType === ENTITY_TYPE.ENEMY) {
+    if (!entity.assets) return;
+    const assets = this._tempAnimationTestExtractSpriteByDirection(entity);
+    if (entity.entityType === ENTITY_TYPES.ENEMY) {
       this._rotate(entity, 180);
-      this._context.drawImage(asset.sprites, asset.x, asset.y, asset.spriteWidth, asset.spriteHeight, entity.x, entity.y, entity.width, entity.height);
+      this._context.drawImage(assets[0].sprites, assets[0].x, assets[0].y, assets[0].spriteWidth, assets[0].spriteHeight, entity.x, entity.y, entity.width, entity.height);
       this._rotate(entity, -180);
       return;
     }
-    this._context.drawImage(asset.sprites, asset.x, asset.y, asset.spriteWidth, asset.spriteHeight, entity.x, entity.y, entity.width, entity.height);
+    this._context.drawImage(assets[0].sprites, assets[0].x, assets[0].y, assets[0].spriteWidth, assets[0].spriteHeight, entity.x, entity.y, entity.width, entity.height);
   }
 
   private _drawHitbox(entity: IEntity) {
@@ -68,7 +68,7 @@ export default class Render implements IRender {
     this._context.strokeStyle = getColorByEntity(entity);
     this._context.lineWidth = 1;
     entity.hitbox.forEach(vertice => {
-      if (entity.entityType === ENTITY_TYPE.ENEMY) {
+      if (entity.entityType === ENTITY_TYPES.ENEMY) {
         this._rotate(entity, 180);
         this._context.lineTo(entity.x + vertice.x * entity.width, entity.y + vertice.y * entity.width);
         this._rotate(entity, -180);

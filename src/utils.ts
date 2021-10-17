@@ -1,5 +1,5 @@
 import { IEntity } from './engine/interfaces/features';
-import { ENTITY_TYPE, THEME } from './constants';
+import { ENTITY_TYPES, THEME } from './constants';
 
 export function stylizeText(text: string) {
   return text.split('').join('.');
@@ -12,9 +12,9 @@ export function between(test: number, min: number, max: number) {
 }
 
 export function getColorByEntity(entity: IEntity) {
-  if (entity.entityType === ENTITY_TYPE.PLAYER) return THEME.PLAYER_COLOR;
-  if (entity.entityType === ENTITY_TYPE.ENEMY) return THEME.ENEMY_COLOR;
-  if (entity.entityType === ENTITY_TYPE.MATE) return THEME.MATE_COLOR;
+  if (entity.entityType === ENTITY_TYPES.PLAYER) return THEME.PLAYER_COLOR;
+  if (entity.entityType === ENTITY_TYPES.ENEMY) return THEME.ENEMY_COLOR;
+  if (entity.entityType === ENTITY_TYPES.MATE) return THEME.MATE_COLOR;
   return 'transparent';
 }
 

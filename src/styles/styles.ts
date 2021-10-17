@@ -16,6 +16,7 @@ function getMatrix(left: boolean, right: boolean) {
 export const Window = styled.div<IWindowProps>`
   display: flex;
   flex-direction: column;
+  height: 300px;
   transform: ${props => getMatrix(props.left, props.right)};
   margin-left: ${props => props.left ? 0 : 'auto'};
   ${appearingAnimation};

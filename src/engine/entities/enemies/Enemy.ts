@@ -1,6 +1,7 @@
 import { Entity } from '../Entity';
-import { ENTITY_TYPE } from '../../../constants';
+import { ASSET_TYPES, ENTITY_TYPES } from '../../../constants';
 import repo from '../../../repo/RepoCollection';
+import { IAsset } from '../../interfaces/features';
 
 const SIZE = 100;
 
@@ -16,11 +17,19 @@ const hitbox = [
   { x: 0.30, y: 0 },
 ];
 
+function extractSprites() {
+  return repo.getAssets(ASSET_TYPES.SHIPS).map<IAsset>(asset => ({
+    ...asset,
+    x: 0,
+    y: 0,
+  }));
+}
+
 export class Enemy extends Entity {
-  public readonly entityType = ENTITY_TYPE.ENEMY;
+  public readonly entityType = ENTITY_TYPES.ENEMY;
 
   constructor(x: number, y: number) {
-    super(x, y, SIZE, SIZE, repo.assets[1], hitbox);
+    super(x, y, SIZE, SIZE, extractSprites(), hitbox);
     this.direction = { x: 0, y: 0 };
     this.acceleration = { x: 0, y: 0 };
     this.maxSpeed = 5;

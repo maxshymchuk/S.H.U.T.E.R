@@ -1,5 +1,6 @@
 import { IAssetConfig, ISoundConfig } from '../engine/interfaces/configs';
-import { IAsset, ISound } from '../engine/interfaces/features';
+import { ISound } from '../engine/interfaces/features';
+import { ASSET_TYPES, SOUND_TYPES } from '../constants';
 
 export enum RepoStatuses {
   LOADED = 'loaded',
@@ -17,11 +18,20 @@ export interface IRepo<T> {
 }
 
 export interface IWithAssets {
-  readonly assets: IAsset[];
+  getAssets: (type: ASSET_TYPES) => IRepoAsset[];
   setAssets: (config: IAssetConfig[]) => void;
 }
 
 export interface IWithSounds {
-  readonly sounds: ISound[];
+  getSounds: (type: SOUND_TYPES) => ISound[];
   setSounds: (config: ISoundConfig[]) => void;
+}
+
+export interface IRepoAsset {
+  type: ASSET_TYPES;
+  sprites: HTMLImageElement;
+  spriteWidth: number;
+  spriteHeight: number;
+  width: number;
+  height: number;
 }

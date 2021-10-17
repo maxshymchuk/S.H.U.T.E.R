@@ -1,4 +1,5 @@
-import { ENTITY_TYPE } from '../../constants';
+import { ENTITY_TYPES, SOUND_TYPES } from '../../constants';
+import { IRepoAsset } from '../../repo/interfaces';
 
 export interface IDimension {
   width: number;
@@ -22,26 +23,18 @@ export interface IMovable {
 }
 
 export interface IEntity extends IElement, IMovable {
-  readonly entityType: ENTITY_TYPE;
-  asset: IAsset;
+  readonly entityType: ENTITY_TYPES;
+  assets: IAsset[];
   hitbox: IVector[];
   limits: IDimension;
   isWithCollision: boolean;
 }
 
-export interface ISlave {
-  master: IEntity;
-}
-
-export interface IAsset {
-  sprites: HTMLImageElement;
-  spriteWidth: number;
-  spriteHeight: number;
+export interface IAsset extends IRepoAsset {
   x: number;
   y: number;
-  width: number;
-  height: number;
 }
 
 export interface ISound {
+  type: SOUND_TYPES;
 }

@@ -1,5 +1,5 @@
 import { IEngine, IEngineParams } from './interfaces/engine';
-import { ENGINE_TICKRATE, ENTITY_TYPE } from '../constants';
+import { ENGINE_TICKRATE, ENTITY_TYPES } from '../constants';
 import { Entity } from './entities/Entity';
 import { IRender } from '../render/interfaces';
 import Render from '../render/Render';
@@ -45,11 +45,11 @@ export class Engine implements IEngine {
   }
 
   public getPlayer() {
-    return this._entities.filter(entity => entity.entityType === ENTITY_TYPE.PLAYER)[0];
+    return this._entities.filter(entity => entity.entityType === ENTITY_TYPES.PLAYER)[0];
   }
 
   public getMates() {
-    return this._entities.filter(entity => entity.entityType === ENTITY_TYPE.MATE);
+    return this._entities.filter(entity => entity.entityType === ENTITY_TYPES.MATE);
   }
 
   public start(): void {

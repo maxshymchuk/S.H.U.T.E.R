@@ -1,16 +1,16 @@
 import { IAsset, IDimension, IEntity, IVector } from '../interfaces/features';
 import { between } from '../../utils';
-import { ENTITY_TYPE, MINIMAL_SPEED } from '../../constants';
+import { ENTITY_TYPES, MINIMAL_SPEED } from '../../constants';
 
 export abstract class Entity implements IEntity {
-  public abstract readonly entityType: ENTITY_TYPE;
+  public abstract readonly entityType: ENTITY_TYPES;
 
-  protected constructor(x: number, y: number, width: number, height: number, asset: IAsset, hitbox: IVector[]) {
+  protected constructor(x: number, y: number, width: number, height: number, assets: IAsset[], hitbox: IVector[]) {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
-    this.asset = asset;
+    this.assets = assets;
     this.hitbox = hitbox;
   }
 
@@ -115,14 +115,14 @@ export abstract class Entity implements IEntity {
     this._height = between(height, 0, Infinity);
   }
 
-  private _asset: IAsset;
+  private _assets: IAsset[];
 
-  public get asset(): IAsset {
-    return this._asset;
+  public get assets(): IAsset[] {
+    return this._assets;
   }
 
-  public set asset(texture: IAsset) {
-    this._asset = texture;
+  public set assets(sprites: IAsset[]) {
+    this._assets = sprites;
   }
 
   private _hitbox: IVector[];
