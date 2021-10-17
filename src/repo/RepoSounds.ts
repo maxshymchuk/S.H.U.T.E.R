@@ -1,12 +1,10 @@
-import { IRepo, ISound } from './interfaces';
 import { ISoundConfig } from '../engine/interfaces/configs';
+import { ISound } from '../engine/interfaces/features';
+import { IRepo } from './interfaces';
 
-export default class RepoSounds implements IRepo {
+export default class RepoSounds implements IRepo<ISoundConfig[]> {
   private _sounds: ISound[];
   private _soundsConfig: ISoundConfig[];
-
-  constructor() {
-  }
 
   public get sounds(): ISound[] {
     return this._sounds;
@@ -16,10 +14,10 @@ export default class RepoSounds implements IRepo {
     this._soundsConfig = config;
   }
 
-  public init(): Promise<void> {
+  public load(): Promise<void> {
     return new Promise((resolve, reject) => setTimeout(() => {
       console.log('sounds loaded');
       resolve();
-    }, 3000));
+    }, 1000));
   }
 }

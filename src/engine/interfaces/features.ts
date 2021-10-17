@@ -23,7 +23,7 @@ export interface IMovable {
 
 export interface IEntity extends IElement, IMovable {
   readonly entityType: ENTITY_TYPE;
-  texture: Promise<IImage>;
+  asset: IAsset;
   hitbox: IVector[];
   limits: IDimension;
   isWithCollision: boolean;
@@ -33,8 +33,15 @@ export interface ISlave {
   master: IEntity;
 }
 
-export interface IImage {
-  source: HTMLImageElement;
-  originalWidth: number;
-  originalHeight: number;
+export interface IAsset {
+  sprites: HTMLImageElement;
+  spriteWidth: number;
+  spriteHeight: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+export interface ISound {
 }

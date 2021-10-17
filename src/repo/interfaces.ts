@@ -1,4 +1,5 @@
 import { IAssetConfig, ISoundConfig } from '../engine/interfaces/configs';
+import { IAsset, ISound } from '../engine/interfaces/features';
 
 export enum RepoStatuses {
   LOADED = 'loaded',
@@ -6,8 +7,13 @@ export enum RepoStatuses {
   LOADING = 'loading',
 }
 
-export interface IRepo {
+export interface IRepoCollection {
   init: () => Promise<void>;
+}
+
+export interface IRepo<T> {
+  config: T;
+  load: () => Promise<void>;
 }
 
 export interface IWithAssets {
@@ -18,19 +24,4 @@ export interface IWithAssets {
 export interface IWithSounds {
   readonly sounds: ISound[];
   setSounds: (config: ISoundConfig[]) => void;
-}
-
-export interface ILoader<T> {
-  load: (config: T) => Promise<void>;
-}
-
-export interface IAsset {
-  sprites: HTMLImageElement;
-  spriteWidth: number;
-  spriteHeight: number;
-  width: number;
-  height: number;
-}
-
-export interface ISound {
 }

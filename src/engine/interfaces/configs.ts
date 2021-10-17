@@ -8,6 +8,8 @@ export interface IEntityConfig extends IVector {
 export interface IAssetConfig {
   type: ENTITY_TYPE;
   src: string,
+  x: number;
+  y: number;
   width: number,
   height: number,
   spriteWidth: number;

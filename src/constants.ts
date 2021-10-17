@@ -15,9 +15,13 @@ export const MINIMAL_SPEED = 0.01;
 export const TITLE_FONT_SIZE = '60px';
 export const SUBTITLE_FONT_SIZE = '25px';
 
-export const enum ENTITY_TYPE {
-  PLAYER,
-  ENEMY,
-  MATE,
-  OBSTACLE,
+export enum ERRORS {
+  REPO_INIT = 'Cannot init repository',
+}
+
+export enum ENTITY_TYPE {
+  PLAYER = 'player',
+  ENEMY = 'enemy',
+  MATE = 'mate',
+  OBSTACLE = 'obstacle',
 }

@@ -1,6 +1,6 @@
 import { IRender, IRenderParams } from './interfaces';
 import { IEngine } from '../engine/interfaces/engine';
-import { IEntity } from '../engine/interfaces/features';
+import { IAsset, IEntity } from '../engine/interfaces/features';
 import { getColorByEntity } from '../utils';
 import { ENTITY_TYPE } from '../constants';
 
@@ -24,10 +24,10 @@ export default class Render implements IRender {
 
   public drawFrame(game: IEngine) {
     this.clear();
-    game.entities.sort((entity) => entity.entityType === ENTITY_TYPE.PLAYER ? 1 : -1).forEach(async entity => {
+    game.entities.sort((entity) => entity.entityType === ENTITY_TYPE.PLAYER ? 1 : -1).forEach(entity => {
       // this._drawPlaceholder(entity);
-      await this._drawTexture(entity);
-      await this._drawHitbox(entity);
+      this._drawTexture(entity);
+      // this._drawHitbox(entity);
     });
   }
 
@@ -44,19 +44,26 @@ export default class Render implements IRender {
     this._context.translate(-cx, -cy);
   }
 
-  private async _drawTexture(entity: IEntity) {
-    const texture = await entity.texture;
-    if (!texture) return;
+  private _tempAnimationTestExtractSpriteByDirection(entity: IEntity): IAsset {
+    return {
+      ...entity.asset,
+      x: (entity.direction.x + 1) * entity.asset.spriteWidth,
+    }
+  }
+
+  private _drawTexture(entity: IEntity) {
+    if (!entity.asset) return;
+    const asset = this._tempAnimationTestExtractSpriteByDirection(entity);
     if (entity.entityType === ENTITY_TYPE.ENEMY) {
       this._rotate(entity, 180);
-      this._context.drawImage(texture.source, entity.x, entity.y, entity.width, entity.height);
+      this._context.drawImage(asset.sprites, asset.x, asset.y, asset.spriteWidth, asset.spriteHeight, entity.x, entity.y, entity.width, entity.height);
       this._rotate(entity, -180);
       return;
     }
-    this._context.drawImage(texture.source, entity.x, entity.y, entity.width, entity.height);
+    this._context.drawImage(asset.sprites, asset.x, asset.y, asset.spriteWidth, asset.spriteHeight, entity.x, entity.y, entity.width, entity.height);
   }
 
-  private async _drawHitbox(entity: IEntity) {
+  private _drawHitbox(entity: IEntity) {
     this._context.beginPath();
     this._context.strokeStyle = getColorByEntity(entity);
     this._context.lineWidth = 1;

@@ -1,8 +1,6 @@
 import { Entity } from '../Entity';
 import { CANVAS_ID, ENTITY_TYPE } from '../../../constants';
-import { createImageByUrl } from '../../../utils';
-
-const ship = require('../../../assets/player.png');
+import repo from '../../../repo/RepoCollection';
 
 const SIZE = 200;
 
@@ -18,13 +16,11 @@ const hitbox = [
   { x: 0.40, y: 0 },
 ];
 
-const texture = createImageByUrl(ship);
-
 export class Player extends Entity {
   public readonly entityType = ENTITY_TYPE.PLAYER;
 
   constructor(x: number, y: number) {
-    super(x, y, SIZE, SIZE, texture, hitbox);
+    super(x, y, SIZE, SIZE, repo.assets[0], hitbox);
     this.acceleration = { x: 1, y: 1 };
     this.maxSpeed = 15;
     this.friction = 0.9;

@@ -1,7 +1,7 @@
 import { IAssetConfig, IEntityConfig } from './engine/interfaces/configs';
 import { ENTITY_TYPE } from './constants';
 
-const player_sprites = require('./assets/player_sprites.png');
+const ships = require('./assets/sprites.png');
 
 export const entitiesConfig: IEntityConfig[] = [
   {
@@ -24,7 +24,9 @@ export const entitiesConfig: IEntityConfig[] = [
 export const assetsConfig: IAssetConfig[] = [
   {
     type: ENTITY_TYPE.PLAYER,
-    src: player_sprites,
+    src: ships,
+    x: 0,
+    y: 1000,
     width: 3000,
     height: 1000,
     spriteWidth: 1000,
@@ -32,7 +34,9 @@ export const assetsConfig: IAssetConfig[] = [
   },
   {
     type: ENTITY_TYPE.ENEMY,
-    src: player_sprites,
+    src: ships,
+    x: 0,
+    y: 0,
     width: 3000,
     height: 1000,
     spriteWidth: 1000,

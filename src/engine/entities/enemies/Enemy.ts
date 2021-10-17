@@ -1,8 +1,6 @@
 import { Entity } from '../Entity';
-import { createImageByUrl } from '../../../utils';
 import { ENTITY_TYPE } from '../../../constants';
-
-const ship = require('../../../assets/enemy.png');
+import repo from '../../../repo/RepoCollection';
 
 const SIZE = 100;
 
@@ -18,13 +16,11 @@ const hitbox = [
   { x: 0.30, y: 0 },
 ];
 
-const texture = createImageByUrl(ship);
-
 export class Enemy extends Entity {
   public readonly entityType = ENTITY_TYPE.ENEMY;
 
   constructor(x: number, y: number) {
-    super(x, y, SIZE, SIZE, texture, hitbox);
+    super(x, y, SIZE, SIZE, repo.assets[1], hitbox);
     this.direction = { x: 0, y: 0 };
     this.acceleration = { x: 0, y: 0 };
     this.maxSpeed = 5;

@@ -1,12 +1,10 @@
-import { IAsset, IRepo } from './interfaces';
+import { IRepo } from './interfaces';
 import { IAssetConfig } from '../engine/interfaces/configs';
+import { IAsset } from '../engine/interfaces/features';
 
-export default class RepoAssets implements IRepo {
-  private _assets: IAsset[];
+export default class RepoAssets implements IRepo<IAssetConfig[]> {
+  private _assets: IAsset[] = [];
   private _assetsConfig: IAssetConfig[];
-
-  constructor() {
-  }
 
   public get assets(): IAsset[] {
     return this._assets;
@@ -16,10 +14,34 @@ export default class RepoAssets implements IRepo {
     this._assetsConfig = config;
   }
 
-  public init(): Promise<void> {
-    return new Promise((resolve, reject) => setTimeout(() => {
+  private _loadAssets(config: IAssetConfig) {
+    return new Promise<void>((resolve) => {
+      const image = new Image();
+      image.src = config.src;
+      const poll = setInterval(() => {
+        if (image.naturalWidth && image.naturalHeight) {
+          clearInterval(poll);
+          this._assets.push({
+            sprites: image,
+            spriteWidth: config.spriteWidth,
+            spriteHeight: config.spriteHeight,
+            x: config.x,
+            y: config.y,
+            width: config.width,
+            height: config.height,
+          });
+          resolve();
+        }
+      }, 10);
+    })
+  }
+
+  public load(): Promise<void> {
+    return new Promise((resolve, reject) => {
       console.log('assets loaded');
-      resolve();
-    }, 1000));
+      Promise.all(
+        this._assetsConfig.map(item => this._loadAssets(item))
+      ).then(() => resolve()).catch(() => reject());
+    });
   }
 }

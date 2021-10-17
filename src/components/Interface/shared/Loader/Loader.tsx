@@ -14,7 +14,7 @@ const StyledLoader = styled(FullscreenAbsolute)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #FFF;
+  background-color: ${THEME.BACKGROUND_COLOR};
 `;
 
 const Spinner = styled.div<ILoaderProps>`

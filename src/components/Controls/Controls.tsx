@@ -8,6 +8,9 @@ import { changeGameRunningStatus } from '../../store/actions';
 
 const StyledControls = styled(Invisible)``;
 
+let timer: NodeJS.Timeout;
+const keyState = new Set();
+
 export default function Controls() {
   const dispatch = useDispatch();
 
@@ -17,12 +20,9 @@ export default function Controls() {
   const isGameStartedActual = useRef(isGameStarted);
   const isGameRunningActual = useRef(isGameRunning);
 
-  const keyState = {};
-
   useLayoutEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('keyup', handleKeyUp);
-    setInterval(checkPressedKeys, 10);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('keyup', handleKeyUp);
@@ -30,45 +30,44 @@ export default function Controls() {
   }, []);
 
   useLayoutEffect(() => {
+    isGameRunningActual.current = isGameRunning;
+    if (isGameRunning) {
+      timer = setInterval(checkPressedKeys, 10);
+    } else {
+      clearInterval(timer)
+      keyState.clear();
+    }
+  }, [isGameRunning]);
+
+  useLayoutEffect(() => {
     isGameStartedActual.current = isGameStarted;
   }, [isGameStarted]);
 
-  useLayoutEffect(() => {
-    isGameRunningActual.current = isGameRunning;
-  }, [isGameRunning]);
-
   const toggleGameRunningStatus = () => {
-    if (isGameRunningActual.current) {
-      game.stop();
-    } else {
-      game.start();
-    }
     dispatch(changeGameRunningStatus(!isGameRunningActual.current));
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
     if (!isGameStartedActual.current) return;
-    // e.preventDefault();
     e.stopPropagation();
-    keyState[e.code] = true;
+    keyState.add(e.code);
     if (e.code === 'Escape') toggleGameRunningStatus();
   };
 
   const handleKeyUp = (e: KeyboardEvent) => {
     if (!isGameStartedActual.current) return;
-    // e.preventDefault();
     e.stopPropagation();
-    keyState[e.code] = false;
+    keyState.delete(e.code);
   };
 
   const checkPressedKeys = () => {
     let x = 0;
     let y = 0;
     const player = game.getPlayer();
-    if (keyState['KeyW'] || keyState['ArrowUp']) y = -1;
-    if (keyState['KeyA'] || keyState['ArrowLeft']) x = -1;
-    if (keyState['KeyS'] || keyState['ArrowDown']) y = 1;
-    if (keyState['KeyD'] || keyState['ArrowRight']) x = 1;
+    if (keyState.has('KeyW') || keyState.has('ArrowUp')) y += -1;
+    if (keyState.has('KeyA') || keyState.has('ArrowLeft')) x += -1;
+    if (keyState.has('KeyS') || keyState.has('ArrowDown')) y += 1;
+    if (keyState.has('KeyD') || keyState.has('ArrowRight')) x += 1;
     player.direction = { x, y };
   };
 

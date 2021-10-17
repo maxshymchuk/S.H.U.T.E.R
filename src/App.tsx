@@ -8,10 +8,11 @@ import game from './engine/Engine';
 import { configToEntities } from './engine/factories/configToEntities';
 import { assetsConfig, entitiesConfig } from './configs';
 import { useDispatch, useSelector } from 'react-redux';
-import repo from './repo/Repo';
+import repo from './repo/RepoCollection';
 import { IRootState } from './store/store';
-import { changeRepoLoadedStatus } from './store/actions';
+import { changeGameRunningStatus, changeRepoLoadedStatus } from './store/actions';
 import { RepoStatuses } from './repo/interfaces';
+import { ERRORS } from './constants';
 
 const StyledApp = styled.div`
   display: flex;
@@ -25,28 +26,47 @@ const StyledApp = styled.div`
 export default function App() {
   const dispatch = useDispatch();
 
+  const isGameRunning = useSelector((store: IRootState) => store.isGameRunning);
+
   const repoStatus = useSelector((store: IRootState) => store.repoStatus);
 
   const isRepoLoaded = useMemo(() => repoStatus === RepoStatuses.LOADED, [repoStatus]);
 
   useEffect(() => {
+    document.addEventListener('visibilitychange', handleWindowVisibility);
     repo.setAssets(assetsConfig);
     repo.init().then(() => {
       dispatch(changeRepoLoadedStatus(RepoStatuses.LOADED));
     }).catch(() => {
       dispatch(changeRepoLoadedStatus(RepoStatuses.ERROR));
     });
+    return () => {
+      document.removeEventListener('visibilitychange', handleWindowVisibility);
+    }
   }, []);
 
   useLayoutEffect(() => {
-    if (repoStatus === RepoStatuses.ERROR) throw 'Cannot init repository';
+    if (repoStatus === RepoStatuses.ERROR) throw ERRORS.REPO_INIT;
   }, [repoStatus]);
 
   useLayoutEffect(() => {
     if (!isRepoLoaded) return;
+    console.log('REPO COLLECTION', repo.assets)
     game.entities = configToEntities(entitiesConfig);
     game.dispatch = dispatch;
   }, [isRepoLoaded]);
+
+  useLayoutEffect(() => {
+    if (isGameRunning) {
+      game.start();
+    } else {
+      game.stop();
+    }
+  }, [isGameRunning])
+
+  const handleWindowVisibility = () => {
+    if (document.visibilityState === 'hidden') dispatch(changeGameRunningStatus(false));
+  }
 
   return isRepoLoaded ? (
     <StyledApp>
