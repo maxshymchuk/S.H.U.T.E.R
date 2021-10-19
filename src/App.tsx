@@ -26,6 +26,7 @@ const StyledApp = styled.div`
 export default function App() {
   const dispatch = useDispatch();
 
+  const isGameStarted = useSelector((store: IRootState) => store.isGameStarted);
   const isGameRunning = useSelector((store: IRootState) => store.isGameRunning);
 
   const repoStatus = useSelector((store: IRootState) => store.repoStatus);
@@ -35,6 +36,7 @@ export default function App() {
   useEffect(() => {
     document.addEventListener('visibilitychange', handleWindowVisibility);
     repo.setAssets(assetsConfig);
+    // repo.setSounds(soundsConfig);
     repo.init().then(() => {
       dispatch(changeRepoLoadedStatus(RepoStatuses.LOADED));
     }).catch(() => {
@@ -56,12 +58,17 @@ export default function App() {
   }, [isRepoLoaded]);
 
   useLayoutEffect(() => {
+    if (!isRepoLoaded || isGameStarted) return;
+    game.reset();
+  }, [isGameStarted])
+
+  useLayoutEffect(() => {
     if (isGameRunning) {
       game.start();
     } else {
       game.stop();
     }
-  }, [isGameRunning])
+  }, [isGameRunning]);
 
   const handleWindowVisibility = () => {
     if (document.visibilityState === 'hidden') dispatch(changeGameRunningStatus(false));

@@ -1,5 +1,5 @@
 import { IVector } from './features';
-import { ASSET_TYPES, ENTITY_TYPES } from '../../constants';
+import { ASSET_TYPES, ENTITY_TYPES, SOUND_TYPES } from '../../constants';
 
 export interface IEntityConfig extends IVector {
   type: ENTITY_TYPES;
@@ -15,6 +15,6 @@ export interface IAssetConfig {
 }
 
 export interface ISoundConfig {
-  type: ENTITY_TYPES;
+  type: SOUND_TYPES;
   src: string,
 }

@@ -15,16 +15,15 @@ export class RepoCollection implements IRepoCollection, IWithAssets, IWithSounds
   }
 
   public getAssets(type: ASSET_TYPES): IRepoAsset[] {
-    return this._assetsRepo.assets.filter(asset => asset.type === type);
+    return this._assetsRepo.data.filter(asset => asset.type === type);
   }
 
   public setAssets(config: IAssetConfig[]): void {
     this._assetsRepo.config = config;
   }
 
-
   public getSounds(type: SOUND_TYPES): ISound[] {
-    return this._soundsRepo.sounds.filter(sound => sound.type === type);
+    return this._soundsRepo.data.filter(sound => sound.type === type);
   }
 
   public setSounds(config: ISoundConfig[]): void {

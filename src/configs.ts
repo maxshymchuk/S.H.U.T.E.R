@@ -1,5 +1,5 @@
-import { IAssetConfig, IEntityConfig } from './engine/interfaces/configs';
-import { ASSET_TYPES, ENTITY_TYPES } from './constants';
+import { IAssetConfig, IEntityConfig, ISoundConfig } from './engine/interfaces/configs';
+import { ASSET_TYPES, ENTITY_TYPES, SOUND_TYPES } from './constants';
 
 const ships = require('./assets/sprites.png');
 
@@ -29,5 +29,12 @@ export const assetsConfig: IAssetConfig[] = [
     height: 1000,
     spriteWidth: 1000,
     spriteHeight: 1000,
+  },
+];
+
+export const soundsConfig: ISoundConfig[] = [
+  {
+    type: SOUND_TYPES.SHIPS,
+    src: '',
   },
 ];

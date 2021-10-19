@@ -12,11 +12,6 @@ export interface IRepoCollection {
   init: () => Promise<void>;
 }
 
-export interface IRepo<T> {
-  config: T;
-  load: () => Promise<void>;
-}
-
 export interface IWithAssets {
   getAssets: (type: ASSET_TYPES) => IRepoAsset[];
   setAssets: (config: IAssetConfig[]) => void;
