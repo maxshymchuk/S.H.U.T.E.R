@@ -1,8 +1,9 @@
 import { IRender, IRenderParams } from './interfaces';
 import { IEngine } from '../engine/interfaces/engine';
-import { IAsset, IEntity } from '../engine/interfaces/features';
+import { IEntity, IFrame } from '../engine/interfaces/features';
 import { getColorByEntity } from '../utils';
-import { ENTITY_TYPES } from '../constants';
+import { ASSET_TYPES, ENTITY_TYPES, FRAME_STATES } from '../constants';
+import repo from '../repo/RepoCollection';
 
 export default class Render implements IRender {
   private _canvas: HTMLCanvasElement;
@@ -27,7 +28,7 @@ export default class Render implements IRender {
     game.entities.sort((entity) => entity.entityType === ENTITY_TYPES.PLAYER ? 1 : -1).forEach(entity => {
       // this._drawPlaceholder(entity);
       this._drawTexture(entity);
-      // this._drawHitbox(entity);
+      this._drawHitbox(entity);
     });
   }
 
@@ -44,30 +45,41 @@ export default class Render implements IRender {
     this._context.translate(-cx, -cy);
   }
 
-  private _tempAnimationTestExtractSpriteByDirection(entity: IEntity): IAsset[] {
-    return entity.assets.map(asset => ({
-      ...asset,
-      x: (entity.direction.x + 1) * asset.spriteWidth,
-    }));
+  private __TEMP__getAnimationFrame(entity: IEntity): IFrame {
+    function getFrameState() {
+      switch (entity.direction.x) {
+        case -1: return FRAME_STATES.SHIFT_LEFT;
+        case 1: return FRAME_STATES.SHIFT_RIGHT;
+        default: return FRAME_STATES.DEFAULT 
+      }
+    }
+    return entity.frames.find(frame => frame.state === getFrameState())
+  }
+
+  private _drawFrame(entity) {
+    const frame = this.__TEMP__getAnimationFrame(entity);
+    this._context.drawImage(frame.sprites, frame.x, frame.y, frame.width, frame.height, entity.x, entity.y, entity.width, entity.height);
   }
 
   private _drawTexture(entity: IEntity) {
-    if (!entity.assets) return;
-    const assets = this._tempAnimationTestExtractSpriteByDirection(entity);
+    if (!entity.frames) return;
+    const frame = this.__TEMP__getAnimationFrame(entity);
+    if (!frame) return;
     if (entity.entityType === ENTITY_TYPES.ENEMY) {
       this._rotate(entity, 180);
-      this._context.drawImage(assets[0].sprites, assets[0].x, assets[0].y, assets[0].spriteWidth, assets[0].spriteHeight, entity.x, entity.y, entity.width, entity.height);
+      this._drawFrame(entity);
       this._rotate(entity, -180);
       return;
     }
-    this._context.drawImage(assets[0].sprites, assets[0].x, assets[0].y, assets[0].spriteWidth, assets[0].spriteHeight, entity.x, entity.y, entity.width, entity.height);
+    this._drawFrame(entity);
   }
 
   private _drawHitbox(entity: IEntity) {
     this._context.beginPath();
     this._context.strokeStyle = getColorByEntity(entity);
     this._context.lineWidth = 1;
-    entity.hitbox.forEach(vertice => {
+    const frame = this.__TEMP__getAnimationFrame(entity);
+    frame.hitbox.forEach(vertice => {
       if (entity.entityType === ENTITY_TYPES.ENEMY) {
         this._rotate(entity, 180);
         this._context.lineTo(entity.x + vertice.x * entity.width, entity.y + vertice.y * entity.width);

@@ -1,5 +1,5 @@
 import { IAssetConfig, ISoundConfig } from '../engine/interfaces/configs';
-import { ISound } from '../engine/interfaces/features';
+import { IFrame, ISound } from '../engine/interfaces/features';
 import { ASSET_TYPES, SOUND_TYPES } from '../constants';
 
 export enum RepoStatuses {
@@ -24,9 +24,5 @@ export interface IWithSounds {
 
 export interface IRepoAsset {
   type: ASSET_TYPES;
-  sprites: HTMLImageElement;
-  spriteWidth: number;
-  spriteHeight: number;
-  width: number;
-  height: number;
+  frames: IFrame[];
 }

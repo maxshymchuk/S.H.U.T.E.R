@@ -1,17 +1,16 @@
-import { IAsset, IDimension, IEntity, IVector } from '../interfaces/features';
+import { IDimension, IEntity, IFrame, IHitbox, IVector } from '../interfaces/features';
 import { between } from '../../utils';
 import { ENTITY_TYPES, MINIMAL_SPEED } from '../../constants';
 
 export abstract class Entity implements IEntity {
   public abstract readonly entityType: ENTITY_TYPES;
 
-  protected constructor(x: number, y: number, width: number, height: number, assets: IAsset[], hitbox: IVector[]) {
+  protected constructor(x: number, y: number, width: number, height: number, frames: IFrame[]) {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
-    this.assets = assets;
-    this.hitbox = hitbox;
+    this.frames = frames;
   }
 
   private _limits = null;
@@ -115,23 +114,23 @@ export abstract class Entity implements IEntity {
     this._height = between(height, 0, Infinity);
   }
 
-  private _assets: IAsset[];
+  private _frames: IFrame[];
 
-  public get assets(): IAsset[] {
-    return this._assets;
+  public get frames(): IFrame[] {
+    return this._frames;
   }
 
-  public set assets(sprites: IAsset[]) {
-    this._assets = sprites;
+  public set frames(frames: IFrame[]) {
+    this._frames = frames;
   }
 
-  private _hitbox: IVector[];
+  private _hitbox: IHitbox[];
 
-  public get hitbox(): IVector[] {
+  public get hitbox(): IHitbox[] {
     return this._hitbox;
   }
 
-  public set hitbox(hitbox: IVector[]) {
+  public set hitbox(hitbox: IHitbox[]) {
     this._hitbox = hitbox;
     this._isWithCollision = !!hitbox;
   }

@@ -33,3 +33,15 @@ export enum ASSET_TYPES {
 export enum SOUND_TYPES {
   SHIPS = 'ships',
 }
+
+export enum FRAME_STATES {
+  DEFAULT = 'default',
+
+  SHIFT_LEFT = 'shift_left',
+  SHIFT_TOP = 'shift_top',
+  SHIFT_RIGHT = 'shift_right',
+  SHIFT_BOTTOM = 'shift_bottom',
+
+  ROTATE_LEFT = 'rotate_left',
+  ROTATE_RIGHT = 'rotate_right',
+}

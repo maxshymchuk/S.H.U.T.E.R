@@ -13,11 +13,12 @@ export default class RepoAssets extends BaseRepo<IAssetConfig, IRepoAsset> {
           console.log('assets loaded');
           this._data.push({
             type: config.type,
-            sprites: image,
-            spriteWidth: config.spriteWidth,
-            spriteHeight: config.spriteHeight,
-            width: config.width,
-            height: config.height,
+            frames: config.frames.map(frame => ({ 
+              ...frame, 
+              assetType: config.type,
+              entityType: frame.type,
+              sprites: image
+            }))
           });
           resolve();
         }

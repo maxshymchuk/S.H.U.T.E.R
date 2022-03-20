@@ -1,5 +1,6 @@
-import { ENTITY_TYPES, SOUND_TYPES } from '../../constants';
+import { ENTITY_TYPES, SOUND_TYPES, FRAME_STATES, ASSET_TYPES } from '../../constants';
 import { IRepoAsset } from '../../repo/interfaces';
+import { IFrameConfig } from './configs';
 
 export interface IDimension {
   width: number;
@@ -24,17 +25,27 @@ export interface IMovable {
 
 export interface IEntity extends IElement, IMovable {
   readonly entityType: ENTITY_TYPES;
-  assets: IAsset[];
-  hitbox: IVector[];
+  frames: IFrame[];
   limits: IDimension;
   isWithCollision: boolean;
 }
 
-export interface IAsset extends IRepoAsset {
-  x: number;
-  y: number;
-}
-
 export interface ISound {
   type: SOUND_TYPES;
+}
+
+export interface IHitbox extends IVector {}
+
+export interface IFrame {
+  id: string;
+  sprites: HTMLImageElement;
+  assetType: ASSET_TYPES;
+  entityType: ENTITY_TYPES;
+  state: FRAME_STATES;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  hitbox: IHitbox[];
+  
 }
